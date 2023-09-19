@@ -18,7 +18,7 @@ class Equipment: public Item
     protected:
         int durability;
     public:
-        Equipment(int, string);
+        Equipment(string, int);
         int Get_Durability(void);
 
 };
@@ -28,7 +28,7 @@ class Armor : public Equipment
     private:
         int defense;
     public:
-        Armor(int, int, string);
+        Armor(string, int, int);
         int Get_Defense(void);
 
 };

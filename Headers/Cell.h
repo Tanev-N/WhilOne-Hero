@@ -14,10 +14,10 @@ class Cell
         Input_Controller input;
         Output_Controller out;
         int x, y;
+    public:    
+        Cell(int, int, string);
         int GetX();
         int GetY();
-    public:
-        Cell(int, int, string);
         string Get_Name(void);
 };
 
@@ -26,12 +26,13 @@ class Road : public Cell
 { 
     protected:
         Item item;
-        Road* *next;
+        Road* next;
     public:
-        Road(int , int );
+        Road(int , int , string);
         Road* Get_Next();
         void Change_Next(Road*);
-        virtual void Drop_item(Hero&) = 0;
+        Road* Get_Next(void);
+        virtual void Drop_item(Hero&) {};
 };
 
 class Normal_Road : public Road

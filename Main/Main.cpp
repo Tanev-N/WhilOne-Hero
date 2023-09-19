@@ -1,9 +1,9 @@
-#include <iostream>
+#include "../Headers/ALL.h"
 
-void play(void);
 
 int main()
 {
+	srand(time(0));
 	play();
 
 	return 0;

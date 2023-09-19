@@ -8,5 +8,6 @@
 #include "Event.h"
 #include "Item.h"
 #include "View_Terminal.h"
+#include "Game.h"
 
 #endif
