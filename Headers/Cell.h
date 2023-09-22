@@ -11,8 +11,8 @@ class Cell
 {
     protected:
         string name; 
-        Input_Controller input;
-        Output_Controller out;
+        //Input_Controller input;  ADD default constructor 
+        //Output_Controller out;   ADD default constructor 
         int x, y;
     public:    
         Cell(int, int, string);
@@ -29,10 +29,9 @@ class Road : public Cell
         Road* next;
     public:
         Road(int , int , string);
-        Road* Get_Next();
         void Change_Next(Road*);
         Road* Get_Next(void);
-        virtual void Drop_item(Hero&) {};
+        //virtual void Drop_item(Hero&) {};
 };
 
 class Normal_Road : public Road

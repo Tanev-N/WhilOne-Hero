@@ -3,7 +3,8 @@
 
 #include "View_Terminal.h"
 #include "basic_library.h"
-
+#include "Cell.h"
+#include "ALL.h"
 class Input_Controller
 {
     private:
@@ -20,7 +21,7 @@ class Output_Controller
         Output_Terminal out_t;
     public:
         Output_Controller(void);
-        void Trigger_Draw_Road_Terminal(Road&);
+        void Trigger_Draw_Road_Terminal();
         void Trigger_Write_Str_Terminal(string);
 };
 

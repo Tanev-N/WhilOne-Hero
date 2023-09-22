@@ -9,13 +9,14 @@ class Game
     private:
         Hero hero;
         Road* head;
+        Road* start;
     public:
-        Game(Hero, Road*);
+        Game();
         void Play (void);
-        int Make_Step(int);
-        int Step_Check(int, int, Road*);
-        Road* Create_Road(void);
-        Road* GetHead(void);
+        int Make_Step();
+        int Step_Check(int, int, int);
+        void Create_Road(void);
+        Road* Get_Head(void);
 };
 
 

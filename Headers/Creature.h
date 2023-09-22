@@ -21,6 +21,7 @@ class Hero : public Creature
         Boots bts;
         Armor arm;
     public:
+        Hero();
         Hero(Boots, Armor);
         void ChangeBoots(Boots&);
         void ChangeArmor(Armor&);
