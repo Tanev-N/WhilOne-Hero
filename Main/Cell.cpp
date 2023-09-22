@@ -11,9 +11,19 @@ int Cell::GetY()
     return y;
 }
 
-Road::Road(int _x, int _y, string _name) : Cell(_x, _y, _name) 
+Road::Road(int _x, int _y, string _name) : Cell(_x, _y, _name), item()
 {
-    item = "None";
-    next = NULL;
+    next = nullptr;
 } 
 
+ Road* Road::Get_Next(void)
+ {
+    return next;
+ }
+
+void Road::Change_Next(Road* next_road)
+{
+    next = next_road;
+}
+
+Normal_Road::Normal_Road(int _x, int _y, string _name) : Road(_x, _y, _name) {}

@@ -4,7 +4,9 @@
 int main()
 {
 	srand(time(0));
-	play();
+
+	Game whileOne;
+	whileOne.Play();
 
 	return 0;
 }

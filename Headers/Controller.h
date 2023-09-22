@@ -7,7 +7,7 @@
 class Input_Controller
 {
     private:
-        
+
         Input_Terminal input_t;
     public:
         Input_Controller(void);
