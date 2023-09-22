@@ -1,87 +1,87 @@
 #include "../Headers/ALL.h"
 
-int Make_Step(int Cord)
+int Make_Step(int cord)
 {
-	int Step;
-	Step = rand() % 2;
-    	if (Step == 0)
+	int step;
+	step = rand() % 2;
+    	if (step == 0)
     	{
-		Cord += 1;
+		cord += 1;
     	}
 	else
 	{
-		Cord -= 1;
+		cord -= 1;
 	}
-    	return (Cord);
+    	return (cord);
 }
 
-int Step_Check(int Newx, int Newy, Road *Start)
+int Step_Check(int newx, int newy, Road *start)
 {
-	Road *Move = Start;
-	int x, y, AdjacentCount;
-	AdjacentCount = 0;
+	Road *move = start;
+	int x, y, adjacentcount;
+	adjacentcount = 0;
 	do
 	{
-		x = Move->GetX();
-		y = Move->GetY();	
-		if ((Newx == x)	&& (Newy == y))
+		x = move->GetX();
+		y = move->GetY();	
+		if ((newx == x)	&& (newy == y))
 		{
 			return 0;
 		}
 		else
 		{
-			if ((Newx + 1 == x) || (Newx - 1 == x) || (Newy + 1 == y) || (Newx - 1 == y))
+			if ((newx + 1 == x) || (newx - 1 == x) || (newy + 1 == y) || (newx - 1 == y))
 			{
-				AdjacentCount += 1;
+				adjacentcount += 1;
 			}	
 		}
-		if (AdjacentCount != 1)
+		if (adjacentcount != 1)
 		{
 			return 0;
 		}
-	} while	((Move->Get_Next()) != NULL);
+	} while	((move->Get_Next()) != NULL);
 	return 1;
 }
 
 Road* Create_Road(void)
 {
-	int x, y, Stepx, Stepy, Side, Check, CorrectRoadCheck;
-	int RoadCount = rand() % 11 + 14;
-	if (RoadCount % 2 == 1)
+	int x, y, stepx, stepy, side, check, correctroadcheck;
+	int roadcount = rand() % 11 + 14;
+	if (roadcount % 2 == 1)
 	{
-		RoadCount += 1;
+		roadcount += 1;
 	}
-	x = y = Stepx = Stepy = CorrectRoadCheck = 0;
-	Normal_Road *NewRoad;
+	x = y = stepx = stepy = correctroadcheck = 0;
+	Normal_Road *newroad;
     string name_road = "Normal_Road";
-	Road *Start = new Road(x,y,name_road);
-	Road *Head = Start;
+	Road *start = new Road(x,y,name_road);
+	Road *head = start;
 	do
 	{
-		Head = Start;
+		head = start;
 		do
 		{
 			if (rand() % 2) 
 			{
-				Stepx = Make_Step(x);
+				stepx = Make_Step(x);
 			}
 			else
 			{
-				Stepy = Make_Step(y);
+				stepy = Make_Step(y);
 			}
-			if (Step_Check(x+Stepx, y+Stepy, Start) == 1)
+			if (Step_Check(x+stepx, y+stepy, start) == 1)
 			{
-				NewRoad = new Normal_Road(x+Stepx, y+Stepy, name_road);
-				Head->Change_Next(NewRoad);	
-				Head = NewRoad;
-				RoadCount -= 1;
+				newroad = new Normal_Road(x+stepx, y+stepy, name_road);
+				head->Change_Next(newroad);	
+				head = newroad;
+				roadcount -= 1;
 			}
-			Stepx = Stepy = 0;
-		} while (RoadCount != 0);
-		if ((abs(Head->GetX() - Start->GetX()) == 1) || (abs(Head->GetY() - Start->GetY()) == 1))
+			stepx = stepy = 0;
+		} while (roadcount != 0);
+		if ((abs(head->GetX() - start->GetX()) == 1) || (abs(head->GetY() - start->GetY()) == 1))
 		{
-			CorrectRoadCheck = 1;
+			correctroadcheck = 1;
 		}
-	} while (CorrectRoadCheck != 1);
+	} while (correctroadcheck != 1);
 	
 }
