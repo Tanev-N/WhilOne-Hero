@@ -23,7 +23,7 @@ void Output_Controller::Trigger_Draw_Start_Road_Terminal(Road* Start)
         direction += ( Curr -> GetY() ) - ((Curr->Get_Next())->GetY());
         Curr = Curr -> Get_Next();
     } while (Curr -> Get_Next() != Start);
-    out_t.Draw_Road(Curr -> GetX(), Curr -> GetY(), Curr -> Get_Name());
+    out_t.Draw_Road(Curr -> GetX(), Curr -> GetY() - direction, Curr -> Get_Name());
 }
 
 
