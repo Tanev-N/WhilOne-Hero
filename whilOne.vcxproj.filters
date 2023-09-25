@@ -15,57 +15,60 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main\Cell.cpp">
+    <ClCompile Include="main\cell.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main\Controller.cpp">
+    <ClCompile Include="main\controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main\Creature.cpp">
+    <ClCompile Include="main\creature.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main\Event.cpp">
+    <ClCompile Include="main\event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main\Game.cpp">
+    <ClCompile Include="main\game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main\Item.cpp">
+    <ClCompile Include="main\item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main\Main.cpp">
+    <ClCompile Include="main\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main\View_Terminal.cpp">
+    <ClCompile Include="main\view_Terminal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\ALL.h">
+    <ClInclude Include="headers\all.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\basic_library.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Cell.h">
+    <ClInclude Include="headers\cell.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Controller.h">
+    <ClInclude Include="headers\controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Creature.h">
+    <ClInclude Include="headers\creature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Event.h">
+    <ClInclude Include="headers\event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Game.h">
+    <ClInclude Include="headers\game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Item.h">
+    <ClInclude Include="headers\item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\View_Terminal.h">
+    <ClInclude Include="headers\view_Terminal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\const.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

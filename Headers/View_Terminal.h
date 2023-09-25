@@ -2,7 +2,7 @@
 #define TERMINAL
 
 #include "basic_library.h"
-#include "Controller.h"
+#include "controller.h"
 
 class Input_Terminal
 {
@@ -17,6 +17,8 @@ class Output_Terminal
         Output_Terminal(void);
         void Draw_Road(int, int, string);
         void Write_Str(string);
+        void Draw_Hero(int , int , string, string);
+        int Get_Colour_Code(string );
 };
 
 #endif

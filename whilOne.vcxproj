@@ -119,25 +119,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main\Cell.cpp" />
-    <ClCompile Include="main\Controller.cpp" />
-    <ClCompile Include="main\Creature.cpp" />
-    <ClCompile Include="main\Event.cpp" />
-    <ClCompile Include="main\Game.cpp" />
-    <ClCompile Include="main\Item.cpp" />
-    <ClCompile Include="main\Main.cpp" />
-    <ClCompile Include="main\View_Terminal.cpp" />
+    <ClCompile Include="main\cell.cpp" />
+    <ClCompile Include="main\controller.cpp" />
+    <ClCompile Include="main\creature.cpp" />
+    <ClCompile Include="main\event.cpp" />
+    <ClCompile Include="main\game.cpp" />
+    <ClCompile Include="main\item.cpp" />
+    <ClCompile Include="main\main.cpp" />
+    <ClCompile Include="main\view_Terminal.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\ALL.h" />
+    <ClInclude Include="headers\all.h" />
     <ClInclude Include="headers\basic_library.h" />
-    <ClInclude Include="headers\Cell.h" />
-    <ClInclude Include="headers\Controller.h" />
-    <ClInclude Include="headers\Creature.h" />
-    <ClInclude Include="headers\Event.h" />
-    <ClInclude Include="headers\Game.h" />
-    <ClInclude Include="headers\Item.h" />
-    <ClInclude Include="headers\View_Terminal.h" />
+    <ClInclude Include="headers\cell.h" />
+    <ClInclude Include="Headers\const.h" />
+    <ClInclude Include="headers\controller.h" />
+    <ClInclude Include="headers\creature.h" />
+    <ClInclude Include="headers\event.h" />
+    <ClInclude Include="headers\game.h" />
+    <ClInclude Include="headers\item.h" />
+    <ClInclude Include="headers\view_Terminal.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

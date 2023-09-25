@@ -2,17 +2,15 @@
 #define CELL
 
 #include "basic_library.h"
-#include "Item.h"
-#include "Controller.h"
-#include "Creature.h"
-#include "Event.h"
+#include "controller.h"
+#include "item.h"
+#include "creature.h"
+#include "event.h"
 
 class Cell
 {
     protected:
         string name; 
-        //Input_Controller input;  ADD default constructor 
-        //Output_Controller out;   ADD default constructor 
         int x, y;
     public:    
         Cell(int, int, string);
@@ -31,7 +29,6 @@ class Road : public Cell
         Road(int , int , string);
         void Change_Next(Road*);
         Road* Get_Next(void);
-        //virtual void Drop_item(Hero&) {};
 };
 
 class Normal_Road : public Road
@@ -45,7 +42,7 @@ class Normal_Road : public Road
 class Special_Road : public Road
 {
     protected:
-        Event event[];
+        Event event;
     public:
         Special_Road(int, int, string, Event[]);
         void PlayEvent(Hero&);

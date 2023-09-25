@@ -1,4 +1,4 @@
-#include "../Headers/ALL.h"
+#include "../Headers/all.h"
 
 Cell::Cell(int _x, int _y, string _name) : x(_x), y(_y), name(_name) {}   
 
@@ -10,11 +10,14 @@ int Cell::GetY()
 {
     return y;
 }
-
+string Cell::Get_Name()
+{
+    return name;
+}
 Road::Road(int _x, int _y, string _name) : Cell(_x, _y, _name), item()
 {
     next = nullptr;
-} 
+}
 
  Road* Road::Get_Next(void)
  {

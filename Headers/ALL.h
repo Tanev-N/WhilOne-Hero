@@ -2,12 +2,13 @@
 #define ALL
 
 #include "basic_library.h"
-#include "Cell.h"
-#include "Controller.h"
-#include "Creature.h"
-#include "Event.h"
-#include "Item.h"
-#include "View_Terminal.h"
-#include "Game.h"
+#include "cell.h"
+#include "controller.h"
+#include "creature.h"
+#include "event.h"
+#include "item.h"
+#include "view_Terminal.h"
+#include "game.h"
+#include "const.h"
 
 #endif

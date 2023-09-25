@@ -1,4 +1,4 @@
-#include "../Headers/ALL.h"
+#include "../Headers/all.h"
 
 
 int main()

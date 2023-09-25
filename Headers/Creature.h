@@ -2,7 +2,7 @@
 #define CREATURE
 
 #include "basic_library.h"
-#include "Item.h"
+#include "item.h"
 
 class Creature
 {
