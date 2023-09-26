@@ -9,6 +9,6 @@
 #include "item.h"
 #include "view_Terminal.h"
 #include "game.h"
-#include "const.h"
+#include "config.h"
 
 #endif

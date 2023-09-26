@@ -1,16 +1,8 @@
 #include "../Headers/all.h"
 
-Input_Controller::Input_Controller(void) : input_t() {}
+Input_Controller::Input_Controller() : input_t() {}
 
-
-
-
-
-
-
-
-
-Output_Controller::Output_Controller(void) : out_t() {}
+Output_Controller::Output_Controller() : out_t() {}
 
 void Output_Controller::Trigger_Draw_Start_Road_Terminal(Road* Start)
 {
@@ -32,9 +24,19 @@ void Output_Controller::Trigger_Draw_Road_Terminal(Road* Cell)
     out_t.Draw_Road(Cell -> GetX(), Cell -> GetY(), Cell -> Get_Name());
 }
 
-void Output_Controller::Trigger_Draw_Hero_Terminal(Road* cell, string action)
+void Output_Controller::Trigger_Draw_Hero_Terminal(Road* cell, const string& action)
 {
-    out_t.Draw_Hero(cell -> GetX(), cell -> GetY(), action, cell->Get_Name());
+    static int direction = 0;
+    if (action == "Go")
+    {
+        out_t.Draw_Hero(cell->GetX(), (cell->GetY()) - direction, action, cell->Get_Name());
+    }
+    else
+    {
+        out_t.Draw_Hero(cell->GetX(), (cell->GetY()) - direction, action, cell->Get_Name());
+        direction += (cell->GetY()) - ((cell->Get_Next())->GetY());
+    }
+    
 }
 
 

@@ -4,12 +4,14 @@
 #include "basic_library.h"
 #include "item.h"
 
+#define HERO_HP 100
+
 class Creature
 {
     protected:
         int hp;
     public:
-        Creature(int);
+        explicit Creature(int);
         void takeDamege(int);
         void Heal(int);
         int GetHp(void);

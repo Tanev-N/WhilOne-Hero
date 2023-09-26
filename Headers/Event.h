@@ -9,9 +9,10 @@ class Event
         string text;
         int changerHp;
     public:
+        Event();
         Event(string, int);
-        string GetText(void);
-        int GetChanger(void);
+        string Get_Text(void);
+        int Get_Changer(void);
 };
 
 #endif

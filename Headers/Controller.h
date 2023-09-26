@@ -28,7 +28,7 @@ class Output_Controller
         Output_Controller(void);
         void Trigger_Draw_Start_Road_Terminal(Road*);
         void Trigger_Draw_Road_Terminal(Road*);
-        void Trigger_Draw_Hero_Terminal(Road*, string);
+        void Trigger_Draw_Hero_Terminal(Road*, const string&);
         void Trigger_Write_Str_Terminal(string);
 };
 
