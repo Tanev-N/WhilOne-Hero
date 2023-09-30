@@ -1,0 +1,3 @@
+/mnt/d/projects/3sem practice c++/WhilOne Hero/cmake-build-debug/CMakeFiles/whilone_game.dir
+/mnt/d/projects/3sem practice c++/WhilOne Hero/cmake-build-debug/CMakeFiles/edit_cache.dir
+/mnt/d/projects/3sem practice c++/WhilOne Hero/cmake-build-debug/CMakeFiles/rebuild_cache.dir
