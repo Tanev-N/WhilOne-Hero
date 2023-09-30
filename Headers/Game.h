@@ -21,6 +21,7 @@ class Game
         Road* Get_Head();
         int Check_Plus(int, int, int, int);
         void Delete_Path();
+        
 };
 
 

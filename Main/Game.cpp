@@ -27,19 +27,19 @@ int Game::Check_Plus(int x1, int y1, int x2, int y2)
 
 int Game::Step_Check(int new_x, int new_y, int road_len) 
 {
-	if ((new_x < 2) || (new_y < 4) || (new_y > SIZE_BOARDER) || (new_x > SIZE_BOARDER)) // Out of bounds check
+	if ((new_x < 1) || (new_y < 1) || (new_y > SIZE_BOARDER) || (new_x > SIZE_BOARDER)) // Out of bounds check
 	{
 		return 0;
 	}
 
 	Road *move = start;
-	int x, y, adjacentcount;
-	adjacentcount = 0;
+	int x, y, adjacent_count;
+	adjacent_count = 0;
 	while (move != nullptr)
 	{
 		x = move->GetX();
 		y = move->GetY();	
-		if ((new_x == x)&& (new_y == y)) // Already existing cell check
+		if ((new_x == x) && (new_y == y)) // Already existing cell check
 		{
 			return 0;
 		}
@@ -47,10 +47,10 @@ int Game::Step_Check(int new_x, int new_y, int road_len)
 		{
 			if (Check_Plus(x, y, new_x, new_y))
 			{
-				adjacentcount += 1;
+				adjacent_count += 1;
 			}	
 		}
-		if ((adjacentcount > 1) && !((road_len == 1) && (adjacentcount == 2)))
+		if ((adjacent_count > 1) && !((road_len == 1) && (adjacent_count == 2)))
 		{
 			return 0;
 		}
@@ -86,8 +86,8 @@ void Game::Create_Path()
 
 	do
 	{
-		x = (rand() % SIZE_BOARDER) + 2; // Coordinates of start road
-		y = (rand() % SIZE_BOARDER) + 2;
+		x = (rand() % SIZE_BOARDER) + 1; // Coordinates of start road
+		y = (rand() % SIZE_BOARDER) + 1;
 
 		road_len = rand() % (MAX_LEN_ROAD - MIN_LEN_ROAD) + MIN_LEN_ROAD;
 

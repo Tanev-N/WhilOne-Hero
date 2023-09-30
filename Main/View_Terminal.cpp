@@ -22,9 +22,9 @@ int Output_Terminal::Get_Colour_Code(string type) // Из типа дороги 
 void Output_Terminal::Draw_Road(int x, int y, string name)
 {
     int colour = Get_Colour_Code(name);
-    cout << "\033["<< x << ";" << y << "H";
+    cout << "\033["<< x << ";" << y+SIZE_BOARDER << "H";
     cout << "\033[30;" << colour << "m" << " ";
-    cout << "\033["<< x << ";" << y+1 << "H";
+    cout << "\033["<< x << ";" << y+1+SIZE_BOARDER << "H";
     cout << "\033[30;" << colour << "m" << " ";
 }
 
@@ -33,13 +33,13 @@ void Output_Terminal::Draw_Hero(int x, int y, string action, string name)
     int colour = Get_Colour_Code(name);
     if (action == "Go")
     {
-        cout << "\033[" << x << ";" << y << "H"; // Перевод курсора
+        cout << "\033[" << x << ";" << y+SIZE_BOARDER << "H"; // Перевод курсора
         cout << "\033[30;" << colour << "m";
         cout << "\U0001F636" << endl; //"\U0001F636" << endl; // Символ героя
     }
     if (action == "Stop")
     {
-       cout << "\033[" << x << ";" << y << "H";
+       cout << "\033[" << x << ";" << y+SIZE_BOARDER << "H";
        cout << " " << endl;
     }
 }
