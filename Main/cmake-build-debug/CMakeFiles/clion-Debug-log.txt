@@ -1,1 +1,0 @@
-CMakeLists.txt not found in D:\projects\3sem practice c++\WhilOne Hero\Main Select CMakeLists.txt
