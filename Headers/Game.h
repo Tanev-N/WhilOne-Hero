@@ -14,12 +14,13 @@ class Game
         Output_Controller output;
     public:
         Game();
-        void Play (void);
+        void Play();
         int Make_Step();
         int Step_Check(int, int, int);
-        void Create_Road(void);
-        Road* Get_Head(void);
+        void Create_Path();
+        Road* Get_Head();
         int Check_Plus(int, int, int, int);
+        void Delete_Path();
 };
 
 

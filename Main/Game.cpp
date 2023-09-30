@@ -25,7 +25,11 @@ int Game::Check_Plus(int x1, int y1, int x2, int y2)
 
 int Game::Step_Check(int new_x, int new_y, int road_len) 
 {
+<<<<<<< HEAD
 	if ((new_x < 1) || (new_y < 1) || (new_y > SIZE_BOARDER) || (new_x > SIZE_BOARDER)) // Out of bounds check
+=======
+	if ((new_x < 2) || (new_y < 4) || (new_y > SIZE_BOARDER) || (new_x > SIZE_BOARDER)) // Out of bounds check
+>>>>>>> a13422c9b19bc35b978b8bf7866c1efb6664db11
 	{
 		return 0;
 	}
@@ -56,34 +60,58 @@ int Game::Step_Check(int new_x, int new_y, int road_len)
 	return 1;
 }
 
-void Game::Create_Road(void) 
+void Game::Delete_Path()
+{
+	Road* temp;
+	head = start;
+	while(head->Get_Next() != nullptr)
+	{
+		temp =  head->Get_Next();
+		delete head;
+		head = temp;
+	}
+	delete head;
+}
+
+void Game::Create_Path() 
 {
 	int x, y, step_x, step_y, correct_road_check;
 	int road_len;
 	int error_counter; // Var on cheak impossible way 
+
+
 	step_x = step_y = correct_road_check = 0;
-	
-	Road* temp;
     string name_road = "Normal";
 	string start_name = "Start";
+
+
 	do
 	{
+<<<<<<< HEAD
 		x = (rand() % 14) + 2;
 		y = (rand() % 14) + 2;
 		road_len = rand() % (MIN_LEN_ROAD+1) + (MAX_LEN_ROAD - MIN_LEN_ROAD);
+=======
+		x = (rand() % SIZE_BOARDER) + 2; // Coordinates of start road
+		y = (rand() % SIZE_BOARDER) + 2;
+
+		road_len = rand() % (MAX_LEN_ROAD - MIN_LEN_ROAD) + MIN_LEN_ROAD;
+
+>>>>>>> a13422c9b19bc35b978b8bf7866c1efb6664db11
 		error_counter = 0;
+
 		if (road_len % 2 == 1)
 		{
 			road_len += 1;
 		}
 		start = new Road(x, y, start_name);
-		road_len--;
-		head = start; // Re:Zero
 
+		road_len--;
+
+		head = start; // Re:Zero
 
 		do
 		{
-
 
 			if (rand() % 2) // rand coice of coordinate
 			{
@@ -95,8 +123,8 @@ void Game::Create_Road(void)
 			}
 			if (this->Step_Check(x+step_x, y+step_y, road_len) == 1)
 			{
-				Normal_Road *newroad;
-				newroad = new Normal_Road(x+step_x, y+step_y, name_road);
+				Road *newroad;
+				newroad = new Road(x+step_x, y+step_y, name_road);
 				head->Change_Next(newroad);	
 				head = head->Get_Next();
 				road_len -= 1;
@@ -124,20 +152,14 @@ void Game::Create_Road(void)
 		}
 		else
 		{
-			head = start;
-			while(head->Get_Next() != nullptr)
-			{
-				temp =  head->Get_Next();
-				delete head;
-				head = temp;
-			}
-			delete head;
+			Delete_Path();
 		}
 	} while (correct_road_check != 1);
 	
 	head -> Change_Next(start);
 	head = head->Get_Next();
 }
+<<<<<<< HEAD
 
 int Game::Get_Size_Row()
 {
@@ -163,15 +185,19 @@ int Game::Change_Screen_Size(int y, int x)
 
 
 void Game::Play(void)
+=======
+void Game::Play()
+>>>>>>> a13422c9b19bc35b978b8bf7866c1efb6664db11
 {
-    this->Create_Road();
+    this->Create_Path(); 
+
 	string go = "Go";
 	string stop = "Stop";
+
 	cout << "\033[2J"; // Clear display
-	cout <<  "\033[Н";
-	//cout << "\033[30;46m" << "\033[5;5Н"  << "lol";
-	//cout << "\033[30;47m";
-	output.Trigger_Draw_Start_Road_Terminal(start);
+
+	output.Trigger_Draw_Start_Road_Terminal(start); 
+	
 	cout << "\033[0m";
 	chrono::milliseconds delay(1000);
 	cout << endl;
@@ -182,9 +208,8 @@ void Game::Play(void)
 		output.Trigger_Draw_Hero_Terminal(head, stop);
 		head = head->Get_Next();
 	}
-	cout << "\n\n\n\n\n\n\n\n\n";
+
 	
-	// debuf print:
 	int i = 1;
     while(head->Get_Next() != start )
    {
@@ -194,7 +219,9 @@ void Game::Play(void)
     }
 	cout << "Cell number " << i << " position " << head->GetX() << " " << head->GetY() << endl;
 	head = head->Get_Next();
-    //end print
+
+	Delete_Path();
+
 }
 Road* Game::Get_Head()
 {
