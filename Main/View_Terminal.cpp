@@ -23,9 +23,9 @@ void Output_Terminal::Draw_Road(int x, int y, string name)
 {
     int colour = Get_Colour_Code(name);
     cout << "\033["<< x << ";" << y+SIZE_BOARDER << "H";
-    cout << "\033[30;" << colour << "m" << " ";
+    cout << "\033[37;" << colour << "m" << " ";
     cout << "\033["<< x << ";" << y+1+SIZE_BOARDER << "H";
-    cout << "\033[30;" << colour << "m" << " ";
+    cout << "\033[37;" << colour << "m" << " ";
 }
 
 void Output_Terminal::Draw_Hero(int x, int y, string action, string name)
@@ -34,19 +34,21 @@ void Output_Terminal::Draw_Hero(int x, int y, string action, string name)
     if (action == "Go")
     {
         cout << "\033[" << x << ";" << y+SIZE_BOARDER << "H"; // Перевод курсора
-        cout << "\033[30;" << colour << "m";
+        cout << "\033[37;" << colour << "m";
         cout << "\U0001F636" << endl; //"\U0001F636" << endl; // Символ героя
     }
     if (action == "Stop")
     {
        cout << "\033[" << x << ";" << y+SIZE_BOARDER << "H";
+       cout << "\033[37;" << colour << "m";
        cout << " " << endl;
     }
 }
 
-
-void Write_Str(string line, int y)
+void Output_Terminal::Write_Str(string line, int y)
 {
     cout << "\033[" << y << ";1H";
-    cout << line;
+    cout << "\033[0m";
+    //cout << "\033[0K";
+    cout << line << endl;
 }

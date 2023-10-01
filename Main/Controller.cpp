@@ -20,7 +20,7 @@ void Output_Controller::Trigger_Draw_Start_Road_Terminal(Road* Start)
 
 
 template<typename T>
-void pop_front(vector<T> &v)
+void pop_front(vector<T>& v)
 {
     if (v.size() > 0) {
         v.erase(v.begin());
@@ -30,24 +30,25 @@ void pop_front(vector<T> &v)
 
 void Output_Controller::Trigger_Write_Str_Terminal(string new_line)
 {
-    static vector <string> game_text;
-    if (game_text.size() == 0)
+    static vector<string> game_text;
+    if (game_text.empty())
     {
+        string none = "                                        ";
         for (int i = 0; i < ROW_COUNT; i++)
         {
-            game_text.push_back("                             ");
+            game_text.push_back(none);
         }
     }
     game_text.push_back(new_line);
-    for (i = 1; i < ROW_COUNT +1; i++)
+    for (int i = ROW_COUNT-1; i >= 0 ; i--)
     {
-        out_t.Write_Str(game_text[-i], SIZE_BOARDER+ROW_COUNT + 3 - (i-1) );
+        out_t.Write_Str(game_text[i], SIZE_BOARDER + 3 + i );
     }
-    game_text.pop_front();
+    pop_front(game_text);
 }
 
 
-game_text.push_back();
+
 
 
 void Output_Controller::Trigger_Draw_Road_Terminal(Road* Cell)

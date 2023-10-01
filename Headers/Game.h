@@ -21,7 +21,10 @@ class Game
         Road* Get_Head();
         int Check_Plus(int, int, int, int);
         void Delete_Path();
-        
+        int Get_Size_Row();
+        int Get_Size_Column();
+        void Change_Screen_Size(int y, int x);
+        int Screen_Size_Check();
 };
 
 

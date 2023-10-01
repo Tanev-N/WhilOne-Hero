@@ -137,6 +137,7 @@
     <ClInclude Include="headers\creature.h" />
     <ClInclude Include="headers\event.h" />
     <ClInclude Include="headers\game.h" />
+    <ClInclude Include="Headers\ioctl.h" />
     <ClInclude Include="headers\item.h" />
     <ClInclude Include="headers\view_Terminal.h" />
   </ItemGroup>

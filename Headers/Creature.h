@@ -4,7 +4,6 @@
 #include "basic_library.h"
 #include "item.h"
 
-#define HERO_HP 100
 
 class Creature
 {
@@ -29,7 +28,6 @@ class Hero : public Creature
         void ChangeArmor(Armor&);
         Boots& GetBoots(void);
         Armor& GetArmor(void);
-        
 };
 
 #endif

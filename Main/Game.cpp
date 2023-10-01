@@ -173,7 +173,6 @@ void Game::Change_Screen_Size(int y, int x)
 	w.ws_col = y;
 	w.ws_row = x;
 	ioctl(0, TIOCSWINSZ, &w);
-	return();
 }
 
 int Game::Screen_Size_Check()
@@ -194,8 +193,9 @@ void Game::Play()
     this->Create_Path(); 
 
 	string go = "Go";
+	string mox[] = {"mox1","mox2","mox3","mox4","mox5","mox6"};
 	string stop = "Stop";
-
+	int j = 0;
 	cout << "\033[2J"; // Clear display
 	Change_Screen_Size(60, 40);
 	output.Trigger_Draw_Start_Road_Terminal(start); 
@@ -206,12 +206,18 @@ void Game::Play()
 	while(1)
 	{
 		output.Trigger_Draw_Hero_Terminal(head, go);
+		output.Trigger_Write_Str_Terminal(mox[j]);
 		this_thread::sleep_for(delay);
 		output.Trigger_Draw_Hero_Terminal(head, stop);
 		head = head->Get_Next();
 		if (Screen_Size_Check() == 0)
 		{
 			break;
+		}
+		j++;
+		if (j>5)
+		{
+			j %= 6;
 		}
 	}
 	int i = 1;
@@ -223,7 +229,7 @@ void Game::Play()
     }
 	cout << "Cell number " << i << " position " << head->GetX() << " " << head->GetY() << endl;
 	head = head->Get_Next();
-	Delete_Path()
+	Delete_Path();
 }
 Road* Game::Get_Head()
 {
