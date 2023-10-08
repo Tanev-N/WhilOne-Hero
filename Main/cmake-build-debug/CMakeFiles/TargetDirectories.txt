@@ -1,3 +1,0 @@
-/mnt/d/projects/3sem practice c++/WhilOne Hero/Main/cmake-build-debug/CMakeFiles/simple_example.dir
-/mnt/d/projects/3sem practice c++/WhilOne Hero/Main/cmake-build-debug/CMakeFiles/edit_cache.dir
-/mnt/d/projects/3sem practice c++/WhilOne Hero/Main/cmake-build-debug/CMakeFiles/rebuild_cache.dir
