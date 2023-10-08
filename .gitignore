@@ -363,5 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 build/
-build
-.vscode
+.vscode/

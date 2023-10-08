@@ -164,7 +164,7 @@ int Game::Get_Size_Row()
 {
 	struct winsize w;
 	ioctl(0, TIOCGWINSZ, &w);
-	return(w.ws_col);
+	return(w.ws_row);
 }
 
 int Game::Get_Size_Column()
@@ -187,7 +187,7 @@ int Game::Screen_Size_Check()
 	int row, column;
 	row = Get_Size_Row();
 	column = Get_Size_Column();
-	if ((row < 20) && (column < 40))
+	if ((row < 20) || (column < 40))
 	{
 		return(0);
 	}
