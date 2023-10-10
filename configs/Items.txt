@@ -1,0 +1,41 @@
+#Cstpl1
+{
+	common
+	15
+	1
+}
+#Cstpl2
+{
+	common
+	10
+	2
+}
+#Cstpl3
+{
+	rare
+	10
+	3
+}
+#Oc_Boots
+{
+	evently   
+	10
+	Boots_of_ocean
+}
+#Vo_Boots
+{
+	evently   
+	10
+	Boots_of_volcano
+}
+#Ju_Boots
+{
+	evently   
+	10
+	Boots_of_jungle
+#Cu_Boots
+{
+	evently   
+	10
+	Boots_of_curse
+}

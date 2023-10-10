@@ -1,0 +1,31 @@
+#Volcano
+{
+	Vo_Boots
+	GOOD action
+	BAD action
+	3
+}
+#Ocean
+{
+	Oc_Boots
+	GOOD action
+	BAD action
+	1
+}
+#Jungle
+{
+
+	Ju_Boots
+	GOOD action
+	BAD action
+	2
+}
+
+
+#Curse
+{
+	Cu_Boots
+	GOOD action
+	BAD action
+	4
+}

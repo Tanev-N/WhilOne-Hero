@@ -9,11 +9,12 @@ using namespace std;
 class Event
 {
     private:
-        string text;
+        string good;
+        string bad;
         int changerHp;
     public:
         Event();
-        Event(string, int);
+        Event(string, string, int);
         string Get_Text(void);
         int Get_Changer(void);
 };

@@ -32,7 +32,7 @@ class Armor : public Equipment
     private:
         int defense;
     public:
-        Armor(string , int, int);
+        Armor(string , int, int); 
         Armor();
         int Get_Defense(void);
 

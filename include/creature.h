@@ -12,7 +12,8 @@ class Creature
         Creature(int);
         void takeDamege(int);
         void Heal(int);
-        int GetHp(void);
+        int Get_Hp(void);
+        void Set_hp(int);
 };
 
 class Hero : public Creature
@@ -27,6 +28,7 @@ class Hero : public Creature
         void ChangeArmor(Armor&);
         Boots& GetBoots(void);
         Armor& GetArmor(void);
+        
 };
 
 #endif

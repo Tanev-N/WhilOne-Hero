@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 
-
 using namespace std;
 
 class Input_Terminal

@@ -1,12 +1,15 @@
 #ifndef CELL
 #define CELL
 
-using namespace std;
 
 #include <iostream>
 #include <string>
+
+
 #include "creature.h"
 #include "event.h"
+
+using namespace std;
 
 class Cell
 {

@@ -7,6 +7,7 @@ include_directories(include)
 
 add_executable( whilone_game 
 
+                src/date.cpp
                 src/cell.cpp
                 src/controller.cpp 
                 src/creature.cpp 

@@ -9,6 +9,10 @@
         "initializer_list": "cpp",
         "xutility": "cpp",
         "type_traits": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "iosfwd": "cpp",
+        "string": "cpp",
+        "xlocale": "cpp",
+        "xlocmon": "cpp"
     }
 }

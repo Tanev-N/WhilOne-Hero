@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+
 #include "cell.h"
 #include "view_terminal.h"
 
@@ -16,7 +17,7 @@ class Input_Controller
         Input_Terminal input_t;
     public:
         Input_Controller(void);
-        char Trigger_In_Terminal(char*);
+        char Trigger_In_Terminal(char);
 };
 
 class Output_Controller
@@ -27,7 +28,7 @@ class Output_Controller
         Output_Controller(void);
         void Trigger_Draw_Start_Road_Terminal(Road*);
         void Trigger_Draw_Road_Terminal(Road*);
-        void Trigger_Draw_Hero_Terminal(Road*, const string&);
+        void Trigger_Draw_Hero_Terminal(Road*, string);
         void Trigger_Write_Str_Terminal(string);
 };
 

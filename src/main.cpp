@@ -6,8 +6,8 @@
 int main()
 {
 	srand(time(0));
-
-	Game whileOne;
+	string level_1 = "../configs/level_1.txt";
+	Game whileOne(level_1);
 	whileOne.Play();
 
 	return 0;

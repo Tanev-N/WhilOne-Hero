@@ -3,7 +3,9 @@
 
 
 #include "view_terminal.h"
-#include "setting.h"
+#include "date.h"
+
+date SETTING;
 
 using namespace std;
 
@@ -29,16 +31,16 @@ int Output_Terminal::Get_Colour_Code(string type) // Из типа дороги 
 void Output_Terminal::Draw_Road(int x, int y, string name)
 {
     int colour = Get_Colour_Code(name);
-    cout << "\033["<< x << ";" << y+SIZE_BOARDER << "H";
+    cout << "\033["<< x << ";" << y+SETTING.SIZE_BOARDER << "H";
     cout << "\033[37;" << colour << "m" << " ";
-    cout << "\033["<< x << ";" << y+1+SIZE_BOARDER << "H";
+    cout << "\033["<< x << ";" << y+1+SETTING.SIZE_BOARDER << "H";
     cout << "\033[37;" << colour << "m" << " ";
 }
 
 void Output_Terminal::Draw_Hero(int x, int y, string action, string name)
 {
     int colour = Get_Colour_Code(name);
-    cout << "\033[" << x << ";" << y+SIZE_BOARDER << "H"; // Перевод курсора
+    cout << "\033[" << x << ";" << y+SETTING.SIZE_BOARDER << "H"; // Перевод курсора
     cout << "\033[37;" << colour << "m";
     if (action == "Go")
     {

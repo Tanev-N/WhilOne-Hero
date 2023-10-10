@@ -2,10 +2,12 @@
 #include <chrono>
 #include <thread>
 #include <stdlib.h>
+#include <fstream>
 
 #include "game.h"
-#include "setting.h"
+#include "date.h"
 
+static date SETTING;
 
 int Game::Make_Step()
 {
@@ -13,14 +15,14 @@ int Game::Make_Step()
 	cord = 0;
 	step = rand() % 2;
     if (step == 0)
-    	{
+    {
 		cord += 1;
-    	}
+    }
 	else
 	{
 		cord -= 1;
 	}
-    	return (cord);
+    return (cord);
 }
 
 
@@ -34,7 +36,7 @@ int Game::Check_Plus(int x1, int y1, int x2, int y2)
 
 int Game::Step_Check(int new_x, int new_y, int road_len) 
 {
-	if ((new_x < 1) || (new_y < 1) || (new_y > SIZE_BOARDER) || (new_x > SIZE_BOARDER)) // Out of bounds check
+	if ((new_x < 1) || (new_y < 1) || (new_y > SETTING.SIZE_BOARDER) || (new_x > SETTING.SIZE_BOARDER)) // Out of bounds check
 	{
 		return 0;
 	}
@@ -87,16 +89,17 @@ void Game::Create_Path()
 
 
 	step_x = step_y = correct_road_check = 0;
+
     string name_road = "Normal";
 	string start_name = "Start";
 
 
 	do
 	{
-		x = (rand() % SIZE_BOARDER) + 1; // Coordinates of start road
-		y = (rand() % SIZE_BOARDER) + 1;
+		x = (rand() % SETTING.SIZE_BOARDER) + 1; // Coordinates of start road
+		y = (rand() % SETTING.SIZE_BOARDER) + 1;
 
-		road_len = rand() % (MAX_LEN_ROAD - MIN_LEN_ROAD) + MIN_LEN_ROAD;
+		road_len = rand() % (SETTING.MAX_LEN_ROAD - SETTING.MIN_LEN_ROAD) + SETTING.MIN_LEN_ROAD;
 
 		error_counter = 0;
 
@@ -144,8 +147,6 @@ void Game::Create_Path()
 		} while ((road_len != 0));
 
 
-
-
 		if ( Check_Plus(start->GetX(), start->GetY(), head->GetX(), head->GetY()) && ( error_counter < 10))
 		{
 			correct_road_check = 1;
@@ -154,45 +155,48 @@ void Game::Create_Path()
 		{
 			Delete_Path();
 		}
+
+
 	} while (correct_road_check != 1);
 	
 	head -> Change_Next(start);
 	head = head->Get_Next();
 }
 
-int Game::Get_Size_Row()
-{
-	struct winsize w;
-	ioctl(0, TIOCGWINSZ, &w);
-	return(w.ws_row);
-}
 
-int Game::Get_Size_Column()
-{
-	struct winsize w;
-	ioctl(0, TIOCGWINSZ, &w);
-	return(w.ws_col);
-}
+			int Game::Get_Size_Row() // TODO: cut screen settings into view 
+			{
+				struct winsize w;
+				ioctl(0, TIOCGWINSZ, &w);
+				return(w.ws_row);
+			}
 
-void Game::Change_Screen_Size(int y, int x)
-{
-	struct winsize w;
-	w.ws_col = y;
-	w.ws_row = x;
-	ioctl(0, TIOCSWINSZ, &w);
-}
+			int Game::Get_Size_Column()
+			{
+				struct winsize w;
+				ioctl(0, TIOCGWINSZ, &w);
+				return(w.ws_col);
+			}
 
-int Game::Screen_Size_Check()
-{
-	int row, column;
-	row = Get_Size_Row();
-	column = Get_Size_Column();
-	if ((row < 20) || (column < 40))
-	{
-		return(0);
-	}
-	return(1);
-}
+			void Game::Change_Screen_Size(int y, int x)
+			{
+				struct winsize w;
+				w.ws_col = y;
+				w.ws_row = x;
+				ioctl(0, TIOCSWINSZ, &w);
+			}
+
+			int Game::Screen_Size_Check()
+			{
+				int row, column;
+				row = Get_Size_Row();
+				column = Get_Size_Column();
+				if ((row < 20) || (column < 40))
+				{
+					return(0);
+				}
+				return(1);
+			}
 
 
 void Game::Play()
@@ -200,42 +204,51 @@ void Game::Play()
     this->Create_Path(); 
 
 	string go = "Go";
-	string mox[] = {"mox1","mox2","mox3","mox4","mox5","mox6"};
+	string mox[] = {"mox1","mox2","mox3","mox4","mox5","mox6"};  //
 	string stop = "Stop";
-	int j = 0;
+
+	int j = 0; // 
+
 	cout << "\033[2J"; // Clear display
 	Change_Screen_Size(60, 40);
 	output.Trigger_Draw_Start_Road_Terminal(start); 
 	
 	cout << "\033[0m";
+
 	chrono::milliseconds delay(1000);
-	cout << endl;
+
+	cout << endl;//
+
 	while(1)
 	{
 		output.Trigger_Draw_Hero_Terminal(head, go);
 		output.Trigger_Write_Str_Terminal(mox[j]);
+
 		this_thread::sleep_for(delay);
+
 		output.Trigger_Draw_Hero_Terminal(head, stop);
 		head = head->Get_Next();
 		if (Screen_Size_Check() == 0)
 		{
 			break;
 		}
-		j++;
-		if (j>5)
-		{
-			j %= 6;
-		}
+		j++;//
+		if (j>5)//
+		{//
+			j %= 6;//
+		}//
 	}
 	int i = 1;
-    while(head->Get_Next() != start )
+    while(head->Get_Next() != start )//
    {
-        cout << "Cell number " << i << " position " << head->GetX() << " " << head->GetY() << endl;
-        i++;
-       head = head->Get_Next();
-    }
-	cout << "Cell number " << i << " position " << head->GetX() << " " << head->GetY() << endl;
-	head = head->Get_Next();
+        cout << "Cell number " << i << " position " << head->GetX() << " " << head->GetY() << endl;//
+        i++;///
+       head = head->Get_Next();//
+    }//
+	cout << "Cell number " << i << " position " << head->GetX() << " " << head->GetY() << endl;//
+	head = head->Get_Next();//
+
+
 	Delete_Path();
 }
 Road* Game::Get_Head()
@@ -243,8 +256,80 @@ Road* Game::Get_Head()
 	return head;
 }
 
-Game::Game() : hero(), input(), output()
+Game::Game(string level) : input(), output()
 {
+	Hero hero;
+	ifstream fin(level);
+	if (!fin.is_open())
+	{
+		cout << "Файл не открылся" << endl;
+		exit(1);
+	}
+	string temp;
+	while (!fin.eof())
+	{
+		fin >> temp;
+		if (temp[0] == '#')
+		{
+			if (temp == "#MAX_HP")
+			{
+				fin >> temp;
+				if (temp != "{")
+				{
+					cout << "Неправильный формат файла" << endl;
+					exit(1);
+				}
+
+				Armor naked("Default", -1, 0);
+				Boots sandals("Default", -1, "Sandals");
+				
+				fin >> temp;
+
+				SETTING.MAX_HP = stoi(temp);
+				
+				hero.Set_hp(SETTING.MAX_HP);
+				hero.ChangeArmor(naked);
+				hero.ChangeBoots(sandals);
+
+				cout << SETTING.MAX_HP;
+				cout << (hero.GetArmor()).Get_Type();
+				cout << (hero.GetBoots()).Get_Type();
+
+			
+
+				fin >> temp;
+
+				if (temp != "}")
+				{
+					cout << "Неправильный формат файла" << endl;
+					exit(1);
+				}
+			}
+			if (temp == "#MIN_LEN_ROAD")
+			{
+		
+			}
+			if (temp == "#MAX_LEN_ROAD")
+			{
+				cout << 1 << endl;
+			}
+			if (temp == "#SIZE_BOARDER")
+			{
+				cout << 1 << endl;
+			}
+			if (temp == "#ROW_COUNT")
+			{
+				cout << 1 << endl;
+			}
+
+		}
+	}
+	//chrono::milliseconds delay(10000);
+	//this_thread::sleep_for(delay);
+
+
+
+	fin.close();
 	head = nullptr;
 	start = nullptr;
 

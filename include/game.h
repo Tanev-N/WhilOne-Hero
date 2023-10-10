@@ -1,21 +1,24 @@
 #ifndef GAME
 #define GAME
 
+#include <vector>
+
 #include "cell.h"
 #include "creature.h"
 #include "controller.h"
 
 
-class Game
+class Game 
 {
     private:
         Hero hero;
+        vector<Road*> all_roads;
         Road* head;
         Road* start;
         Input_Controller input;
         Output_Controller output;
     public:
-        Game();
+        Game(string);
         void Play();
         int Make_Step();
         int Step_Check(int, int, int);

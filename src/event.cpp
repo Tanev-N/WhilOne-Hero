@@ -2,6 +2,7 @@
 
 Event::Event()
 {
-    text = "Default";
+    good = "Default";
+    bad = "Default";
     changerHp = 0;
 }
