@@ -13,7 +13,8 @@ class Item
     public:
         Item(string);
         Item();
-        string Get_Type(void);
+        string Get_Type();
+        int get_weight();
 };
 
 class Equipment: public Item
@@ -23,7 +24,8 @@ class Equipment: public Item
     public:
         Equipment(string, int);
         Equipment();
-        int Get_Durability(void);
+        int Get_Durability();
+        void reduce_durability();
 
 };
 
@@ -34,7 +36,7 @@ class Armor : public Equipment
     public:
         Armor(string , int, int); 
         Armor();
-        int Get_Defense(void);
+        int Get_Defense();
 
 };
 
@@ -45,7 +47,7 @@ class Boots : public Equipment
     public:
         Boots(string , int ,  string);
         Boots();
-        string Get_Name(void);
+        string Get_Name();
 
 };
 

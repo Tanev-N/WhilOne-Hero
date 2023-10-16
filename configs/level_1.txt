@@ -1,16 +1,18 @@
-#MAX_HP
+#MAX_LEN_ROAD
 {
-	100
+	15
 }
-#MIN_LEN_ROAD
+
+#MAX_HP
 {
 	25
 }
-
-#MAX_LEN_ROAD
+#MIN_LEN_ROAD
 {
-	45
+	10
 }
+
+
 
 #SIZE_BOARDER
 {
@@ -19,20 +21,20 @@
 
 #ROW_COUNT
 {
-	8
+	15
 }
 
 #ARMOR
 {
-	Cstpl1
-	Cstpl2
-	Cstpl3
+	#Cstpl1
+	#Cstpl2
+	#Cstpl3
 }
 
 #ROADS
 {
-	Volcano
-	Ocean
-	Jungle
-	Curse
+	#Volcano
+	#Ocean
+	#Jungle
+	#Curse
 }

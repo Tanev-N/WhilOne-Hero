@@ -11,12 +11,17 @@ class Event
     private:
         string good;
         string bad;
-        int changerHp;
+        int changer_hp;
     public:
         Event();
         Event(string, string, int);
-        string Get_Text(void);
-        int Get_Changer(void);
+        string get_good();
+        string get_bad();
+        int get_changer();
+        void set_good(string);
+        void set_bad(string);
+        void set_changer(int);
+        int get_weight(string);
 };
 
 #endif

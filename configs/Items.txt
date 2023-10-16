@@ -33,6 +33,7 @@
 	evently   
 	10
 	Boots_of_jungle
+}
 #Cu_Boots
 {
 	evently   

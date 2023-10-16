@@ -1,8 +1,13 @@
 #ifndef DATE3
 #define DATE3
 
+#include <iostream>
+#include <vector>
+#include <string>
 
-class date
+using namespace std;
+
+class game_data
 {
     public:
         int MIN_LEN_ROAD;
@@ -10,9 +15,9 @@ class date
         int SIZE_BOARDER;
         int ROW_COUNT;
         int MAX_HP;
-        date();
+        vector<string> names_of_game_settings;
+        game_data();
 };
-
 
 
 #endif

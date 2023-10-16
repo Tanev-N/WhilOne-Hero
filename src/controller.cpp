@@ -1,18 +1,31 @@
-#include <iostream>
-#include <string>
-#include <vector>
 
-#include "controller.h"
-#include "cell.h"
-#include "date.h"
+#include "../include/controller.h"
 
-static date SETTING;
 
-using namespace std;
 
-Input_Controller::Input_Controller() : input_t() {}
+void Input_Controller::set_settings(game_data _settings)
+{
+    settings = _settings;
+}
 
-Output_Controller::Output_Controller() : out_t() {}
+void Output_Controller::set_settings(game_data _settings)
+{
+    settings = _settings;
+}
+
+Input_Controller::Input_Controller() : input_t(){}
+
+Output_Controller::Output_Controller() : out_t(){}
+
+Input_Controller::Input_Controller(game_data _settings) : input_t(_settings)
+{
+    settings = _settings;
+}
+
+Output_Controller::Output_Controller(game_data _settings) : out_t(_settings)
+{
+    settings = _settings;
+}
 
 void Output_Controller::Trigger_Draw_Start_Road_Terminal(Road* Start)
 {
@@ -45,7 +58,7 @@ void Output_Controller::Trigger_Write_Str_Terminal(string new_line)
     if (game_text.empty())
     {
         string empty_str = " ";
-        for (int i = 0; i < SETTING.ROW_COUNT; i++)
+        for (int i = 0; i < settings.ROW_COUNT; i++)
         {
             game_text.push_back(empty_str);
         }
@@ -53,9 +66,9 @@ void Output_Controller::Trigger_Write_Str_Terminal(string new_line)
 
     game_text.push_back(new_line);
 
-    for (int i = SETTING.ROW_COUNT-1; i >= 0 ; i--)
+    for (int i = settings.ROW_COUNT; i >= 0 ; i--)
     {
-        out_t.Write_Str(game_text[i], SETTING.SIZE_BOARDER + 3 + i );
+        out_t.Write_Str(game_text[i], settings.SIZE_BOARDER + 3 + i );
     }
 
     pop_front(game_text);
@@ -86,5 +99,18 @@ void Output_Controller::Trigger_Draw_Hero_Terminal(Road* cell,  string action)
 }
 
 
-
+ char Input_Controller::Trigger_In_Terminal()
+ {
+    char key = input_t.Get_Key();
+    if (key == 'Y' || key == 'N')
+    {
+        return key;
+    }
+    else
+    {
+        cout.clear();
+        cout << "Неправильный ввод";
+        exit(1);
+    }
+ }
 ///

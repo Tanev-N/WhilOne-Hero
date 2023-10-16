@@ -364,3 +364,8 @@ FodyWeavers.xsd
 
 build/
 .vscode/
+cmake-build-debug-wsl/
+.vs/
+.idea/
+src/play.out
+

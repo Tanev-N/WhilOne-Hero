@@ -13,6 +13,18 @@
         "iosfwd": "cpp",
         "string": "cpp",
         "xlocale": "cpp",
-        "xlocmon": "cpp"
+        "xlocmon": "cpp",
+        "xiosbase": "cpp",
+        "locale": "cpp",
+        "thread": "cpp",
+        "xlocmes": "cpp",
+        "xlocnum": "cpp",
+        "xloctime": "cpp",
+        "ostream": "cpp",
+        "istream": "cpp",
+        "utility": "cpp",
+        "list": "cpp",
+        "system_error": "cpp",
+        "xtree": "cpp"
     }
 }

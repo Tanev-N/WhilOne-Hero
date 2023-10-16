@@ -1,9 +1,10 @@
-#include "creature.h"
+#include "../include/creature.h"
 
 
 Creature::Creature(int _hp): hp(_hp) {}
+Creature::Creature() {}
 
-Hero::Hero() : Creature(100), bts(), arm() {} //TODO replace MAX_HP
+Hero::Hero() : bts(), arm() {} //TODO replace MAX_HP
 
 void Creature::Set_hp(int _hp)
 {
@@ -11,12 +12,12 @@ void Creature::Set_hp(int _hp)
 }
 
 
-void Hero::ChangeBoots(Boots& _bts)
+void Hero::ChangeBoots(Boots _bts)
 {
     bts = _bts;
 }
 
-void Hero::ChangeArmor(Armor& _arm)
+void Hero::ChangeArmor(Armor _arm)
 {
     arm = _arm;
 }
@@ -29,4 +30,26 @@ Boots& Hero::GetBoots(void)
 Armor& Hero::GetArmor(void)
 {
     return arm;
+}
+
+
+void Creature::takeDamege(int dam)
+{
+    hp -= dam;
+}
+void Creature::Heal(int heal, game_data set)
+{
+    if(hp+heal > set.MAX_HP)
+    {
+        hp = set.MAX_HP;
+    }
+    else
+    {
+        hp+=heal;
+    }
+}
+
+int Creature::Get_Hp(void)
+{
+    return hp;
 }
