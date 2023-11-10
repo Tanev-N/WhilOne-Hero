@@ -16,7 +16,7 @@
 
 #SIZE_BOARDER
 {
-	20
+	10
 }
 
 #ROW_COUNT

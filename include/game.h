@@ -60,6 +60,7 @@ class Game
         void output_notification_about_changed_road();
         void output_step();
         void output_win();
+        void output_lose();
         void output_dropd_boots(Boots);
         void output_dropt_arm(Armor);
 };

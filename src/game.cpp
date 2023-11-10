@@ -248,7 +248,7 @@ void Game::Play()
 		
 		if (hero.Get_Hp() <= 0 )
 		{
-			output.Trigger_Write_Str_Terminal("Герой не справился с испытанием и умер....");
+			output_lose();
 			break;
 		}
 		int temp_drop = rand()%100;
@@ -294,7 +294,7 @@ void Game::Play()
 		}
 
 
-	Delete_Path();
+	//Delete_Path();
 }
 
 
@@ -307,10 +307,21 @@ void Game::output_win()
 {
 	string win = "Мои поздравления! Вы встромнили все клетки! Теперь вы сможете найти дорогу домой!";
 	string end = "THE END........возможно)";
-	output.Trigger_Write_Str_Terminal(win);
-	output.Trigger_Write_Str_Terminal(end);
-	
+	cout << "\033[1;1H";
+	cout << "\033[2J";
+	cout << win;
+	cout << end;
 }
+
+void Game::output_lose()
+{
+	cout << "\033[1;1H";
+	cout << "\033[2J";
+	cout << "Герой не справился с испытанием и умер....";
+}
+
+
+
 void Game::output_dropd_boots(Boots _bts)
 {
 	string drop_boots = "Вам выпали ботинки: " + _bts.Get_Name();
