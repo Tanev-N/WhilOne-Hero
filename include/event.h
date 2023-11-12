@@ -14,14 +14,13 @@ class Event
         int changer_hp;
     public:
         Event();
-        Event(string, string, int);
-        string get_good();
-        string get_bad();
-        int get_changer();
-        void set_good(string);
-        void set_bad(string);
+        Event(const string&, const string&, int);
+        string get_good() const;
+        string get_bad() const;
+        int get_changer() const;
+        void set_good(const string&);
+        void set_bad(const string&);
         void set_changer(int);
-        int get_weight(string);
 };
 
 #endif

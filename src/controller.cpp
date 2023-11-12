@@ -3,12 +3,12 @@
 
 
 
-void Input_Controller::set_settings(game_data _settings)
+void Input_Controller::set_settings(const game_data& _settings)
 {
     settings = _settings;
 }
 
-void Output_Controller::set_settings(game_data _settings)
+void Output_Controller::set_settings(const game_data& _settings)
 {
     settings = _settings;
 }
@@ -17,28 +17,28 @@ Input_Controller::Input_Controller() : input_t(){}
 
 Output_Controller::Output_Controller() : out_t(){}
 
-Input_Controller::Input_Controller(game_data _settings) : input_t(_settings)
+Input_Controller::Input_Controller(const game_data& _settings) : input_t(_settings)
 {
     settings = _settings;
 }
 
-Output_Controller::Output_Controller(game_data _settings) : out_t(_settings)
+Output_Controller::Output_Controller(const game_data& _settings) : out_t(_settings)
 {
     settings = _settings;
 }
 
-void Output_Controller::Trigger_Draw_Start_Road_Terminal(Road* Start)
+void Output_Controller::Draw_Path_Terminal(list<Road>::const_iterator it_begin, list<Road>::const_iterator it_end)
 {
-    Road* Curr = Start;
-    int direction = 0;
-
-    do 
+    int direction = 0; // используется как смещение по оси y в терминал, т.к клетка сдвоенная 
+    list<Road>::const_iterator next_it;
+    for (auto i = it_begin; i != it_end; ++i)
     {
-        out_t.Draw_Road(Curr -> GetX(), (Curr -> GetY()) - direction , Curr -> Get_Name());
-        direction += ( Curr -> GetY() ) - ((Curr->Get_Next())->GetY());
-        Curr = Curr -> Get_Next();
-    } while (Curr -> Get_Next() != Start);
-    out_t.Draw_Road(Curr -> GetX(), Curr -> GetY() - direction, Curr -> Get_Name());
+        out_t.Draw_Road((*i).GetX(), ((*i).GetY()) - direction , (*i).Get_Name());
+        next_it = i;
+        ++next_it;
+        direction += ((*i).GetY() ) - ((*next_it).GetY());
+    }
+    cout << "\033[0m";
 }
 
 
@@ -51,7 +51,7 @@ void pop_front(vector<T>& v)
 }
 
 
-void Output_Controller::Trigger_Write_Str_Terminal(string new_line)
+void Output_Controller::Write_Str_Terminal(string new_line)
 {
     static vector<string> game_text;
     
@@ -78,39 +78,47 @@ void Output_Controller::Trigger_Write_Str_Terminal(string new_line)
 
 
 
-void Output_Controller::Trigger_Draw_Road_Terminal(Road* Cell)
+void Output_Controller::Draw_Road_Terminal(Road Cell)
 {
-    out_t.Draw_Road(Cell -> GetX(), Cell -> GetY(), Cell -> Get_Name());
+    out_t.Draw_Road(Cell.GetX(), Cell.GetY(), Cell.Get_Name());
 }
 
-void Output_Controller::Trigger_Draw_Hero_Terminal(Road* cell,  string action)
+void Output_Controller::Draw_Hero_Terminal(list<Road> &path, list<Road>::const_iterator it,  string action)
 {
-    static int direction = 0;
+    static int direction = 0; //используется как смещение по оси y в терминал, т.к клетка сдвоенная
     if (action == "Go")
     {
-        out_t.Draw_Hero(cell->GetX(), (cell->GetY()) - direction, action, cell->Get_Name());
+        out_t.Draw_Hero((*it).GetX(), ((*it).GetY()) - direction, action, (*it).Get_Name());
     }
     else if (action == "Stop")
     {
-        out_t.Draw_Hero(cell->GetX(), (cell->GetY()) - direction, action, cell->Get_Name());
-        direction += (cell->GetY()) - ((cell->Get_Next())->GetY());
+        auto next_it = it;
+        ++next_it;
+        if (next_it == path.end())
+        {
+            next_it = path.begin();
+        }
+        out_t.Draw_Hero((*it).GetX(), ((*it).GetY()) - direction, action, (*it).Get_Name());
+        direction += ((*it).GetY()) - ((*next_it).GetY());
     }
     
 }
 
 
- char Input_Controller::Trigger_In_Terminal()
+ int Input_Controller::In_Terminal()
  {
     char key = input_t.Get_Key();
-    if (key == 'Y' || key == 'N')
+    if (key == 'Y' || key == 'y')
     {
-        return key;
+        return 1;
+    }
+    else if (key == 'N' || key == 'n')
+    {
+        return 0;
     }
     else
     {
-        cout.clear();
-        cout << "Неправильный ввод";
-        exit(1);
+        return 255; // incorrect input, 255 is'n using
     }
  }
 ///

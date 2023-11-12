@@ -11,7 +11,7 @@ class Item
     protected:
         string type;
     public:
-        Item(string);
+        explicit Item(string);
         Item();
         string Get_Type();
         int get_weight();

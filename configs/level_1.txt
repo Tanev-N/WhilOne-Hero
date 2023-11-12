@@ -1,6 +1,6 @@
 #MAX_LEN_ROAD
 {
-	15
+	9
 }
 
 #MAX_HP
@@ -9,7 +9,7 @@
 }
 #MIN_LEN_ROAD
 {
-	10
+	8
 }
 
 

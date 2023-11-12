@@ -2,7 +2,7 @@
 
 
 Creature::Creature(int _hp): hp(_hp) {}
-Creature::Creature() {}
+Creature::Creature() = default;
 
 Hero::Hero() : bts(), arm() {} //TODO replace MAX_HP
 
@@ -12,32 +12,32 @@ void Creature::Set_hp(int _hp)
 }
 
 
-void Hero::ChangeBoots(Boots _bts)
+void Hero::ChangeBoots(Boots &_bts)
 {
     bts = _bts;
 }
 
-void Hero::ChangeArmor(Armor _arm)
+void Hero::ChangeArmor(Armor &_arm)
 {
     arm = _arm;
 }
 
-Boots& Hero::GetBoots(void)
+Boots& Hero::GetBoots()
 {
     return bts;
 }
 
-Armor& Hero::GetArmor(void)
+Armor& Hero::GetArmor()
 {
     return arm;
 }
 
 
-void Creature::takeDamege(int dam)
+void Creature::takeDamage(int dam)
 {
     hp -= dam;
 }
-void Creature::Heal(int heal, game_data set)
+void Creature::Heal(int heal, const game_data& set)
 {
     if(hp+heal > set.MAX_HP)
     {
@@ -49,7 +49,7 @@ void Creature::Heal(int heal, game_data set)
     }
 }
 
-int Creature::Get_Hp(void)
+int Creature::Get_Hp() const
 {
     return hp;
 }

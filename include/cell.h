@@ -27,29 +27,25 @@ class Cell
         int GetY() const;
         void set_x(int);
         void set_y(int);
-        void set_name(string);
-        string Get_Name(void);
+        void set_name(const string&);
+        string Get_Name() const;
 };
 
 
 class Road : public Cell 
 { 
     protected:
-        Boots boots; // Vector<Item*> items
-        Road* next;
+        Boots boots; 
         Event event;
     public:
-        Road(int , int , string); 
-        Road() : Cell() { next = nullptr ;}
-        void Change_Next(Road*);
-        Road* Get_Next(void);
+        Road(int , int , const string&);
+        Road() : Cell() {}
         void ChangeToSpc(vector<Road*>);
-        Boots Get_Boots();
-        void Play_Event(Hero*, Output_Controller, game_data);
-        void set_boots(Boots);
-        void set_event(Event);
-        int get_weight(string);
-        Event get_event();
+        Boots Get_Boots() const;
+        void Play_Event(Hero*, Output_Controller, const game_data&);
+        void set_boots(const Boots&);
+        void set_event(const Event&);
+        Event get_event() const;
 };
 
 #endif

@@ -35,13 +35,13 @@ int Game::Step_Check(int new_x, int new_y, int road_len)
 		return 0;
 	}
 
-	Road *move = start;
+	auto it = path.begin();
 	int x, y, adjacent_count;
 	adjacent_count = 0;
-	while (move != nullptr)
+	while (it != path.end())
 	{
-		x = move->GetX();
-		y = move->GetY();	
+		x = (*it).GetX();
+		y = (*it).GetY();	
 		if ((new_x == x) && (new_y == y)) // Already existing cell check
 		{
 			return 0;
@@ -57,25 +57,14 @@ int Game::Step_Check(int new_x, int new_y, int road_len)
 		{
 			return 0;
 		}
- 		move = move->Get_Next();
+ 		++it;
 	} 
 	return 1;
 }
 
-void Game::Delete_Path()
-{
-	Road* temp;
-	head = start;
-	while(head->Get_Next() != nullptr)
-	{
-		temp =  head->Get_Next();
-		delete head;
-		head = temp;
-	}
-	delete head;
-}
 
-int Game::Create_Path() 
+
+void Game::Create_Path() 
 {
 	int x, y, step_x, step_y, correct_road_check;
 	int road_len;
@@ -103,12 +92,8 @@ int Game::Create_Path()
 			road_len += 1;
 		}
 		res_road_len = road_len;
-		start = new Road(x, y, start_name);
-
+		path.push_back(Road(x, y, start_name));
 		road_len--;
-
-		head = start; // Re:Zero
-
 		do
 		{
 
@@ -122,10 +107,7 @@ int Game::Create_Path()
 			}
 			if (this->Step_Check(x+step_x, y+step_y, road_len) == 1)
 			{
-				Road *newroad;
-				newroad = new Road(x+step_x, y+step_y, name_road);
-				head->Change_Next(newroad);	
-				head = head->Get_Next();
+				path.push_back(Road(x+step_x, y+step_y, name_road));
 				road_len -= 1;
 				x += step_x;
 				y += step_y;
@@ -143,33 +125,28 @@ int Game::Create_Path()
 		} while ((road_len != 0));
 
 
-		if ( Check_Plus(start->GetX(), start->GetY(), head->GetX(), head->GetY()) && ( error_counter < 10))
+		if ( Check_Plus((*path.begin()).GetX(), (*path.begin()).GetY(), (*(--path.end())).GetX(), (*(--path.end())).GetY()) && ( error_counter < 10))
 		{
 			correct_road_check = 1;
 		}
 		else
 		{
-			Delete_Path();
+			path.clear();
 		}
 
 
 	} while (correct_road_check != 1);
-	
-	head -> Change_Next(start);
-	head = head->Get_Next();
-
-	return res_road_len;
 }
 
 
-			int Game::Get_Size_Row() // TODO: cut screen settings into view 
+			int Game::Get_Size_Row() const // TODO: cut screen settings into view 
 			{
 				struct winsize w;
 				ioctl(0, TIOCGWINSZ, &w);
 				return(w.ws_row);
 			}
 
-			int Game::Get_Size_Column()
+			int Game::Get_Size_Column() const
 			{
 				struct winsize w;
 				ioctl(0, TIOCGWINSZ, &w);
@@ -188,157 +165,167 @@ int Game::Create_Path()
 				return(1);
 			}
 
+road_status::road_status()
+{
+	curr_road = 1;
+	curr_loop = 1;
+	cout_spc_road = 0;
+}
 
 void Game::Play()
 {
-    rd_status.road_len = Create_Path();
-	rd_status.curr_road = 1;
-	rd_status.сurr_loop = 0;
-	rd_status.cout_cps_road = 0;
+    Create_Path();
+    rd_status.road_len = path.size();
 
 	string go = "Go";
 	string stop = "Stop";
 
-	int chance_drop = 35;
-	int chance_special = 40;
+	int chance_drop = 25;
+	int chance_special = 33;
 
 	cout << "\033[2J"; // Clear display
-
-	output.Trigger_Draw_Start_Road_Terminal(start); 
+	output.Draw_Path_Terminal(path.begin(), path.end()); 
 	
-	cout << "\033[0m";
 
 	chrono::milliseconds delay(4000);
 
 	cout << endl;//
+	auto it = path.begin();
+	while(true) {
 
-	while(1)
-	{
-		string name_road = head->Get_Name();
-		int temp_special = rand()%100;
-		if (name_road == "Start")
-		{
-			rd_status.сurr_loop++;
-			rd_status.curr_road = 1;
-		}
-		output_position();
-		output_hero_status();
-		if (name_road == "Normal")
-		{
-			if (temp_special < chance_special)
-			{
-				rd_status.cout_cps_road++;
-				output_notification_about_changed_road();
-				head->ChangeToSpc(all_roads);
-			}
-		}
-		output.Trigger_Draw_Hero_Terminal(head, go);
-		if (rd_status.cout_cps_road == rd_status.road_len-1)
-		{
-			output_win();
-			break;
-		}
-		output_step();
-		
-		name_road = head->Get_Name();
-		if (!((rd_status.сurr_loop == 1) && (rd_status.curr_road == 1)))
-		{
-			head->Play_Event(&hero, output, settings);
-		}
-		
-		if (hero.Get_Hp() <= 0 )
-		{
-			output_lose();
-			break;
-		}
-		int temp_drop = rand()%100;
-		
+        output_position();
+        output_hero_status();
 
-		if ( name_road == "Normal")
-		{
-			if (temp_drop < chance_drop)
-			{
-				Armor arm = Drop_Armor();
-				output_dropt_arm(arm);
-				if (ask_question())
-				{
-					hero.ChangeArmor(arm);
-				}
-			}
-		}
-		else if (name_road != "Start")
-		{
-				Boots ev_boots = head->Get_Boots();
-				if (temp_drop < ev_boots.get_weight())
-				{
-					output_dropd_boots(ev_boots);
-					if (ask_question())
-					{
-						hero.ChangeBoots(ev_boots);
-					}
-				}
-		}
-		this_thread::sleep_for(delay);
-		
+        string name_road = (*it).Get_Name();
 
-		output.Trigger_Draw_Hero_Terminal(head, stop);
-		head = head->Get_Next();
-		if (Screen_Size_Check() == 0)
-		{
-			break;
-		}
-		rd_status.curr_road++;
-		string end_road_action = "----------------------------";
-		output.Trigger_Write_Str_Terminal(end_road_action);
-		output.Trigger_Write_Str_Terminal("                                                         ");
-		}
+        int temp_special = rand() % 100;
+
+        //Change to Special
+        if (name_road == "Normal") {
+            if (temp_special < chance_special) {
+                rd_status.cout_spc_road++;
+                output_notification_about_changed_road();
+                (*it).ChangeToSpc(all_roads);
+            }
+        }
+        // Hero to advent
+        output.Draw_Hero_Terminal(path, it, go);
+        //Check win
+        if (rd_status.cout_spc_road == rd_status.road_len - 1) {
+            output_win();
+            break;
+        }
+        output_step(it);
+
+        name_road = (*it).Get_Name();
+
+        //Play event
+
+        if (!((rd_status.curr_loop == 1) && (rd_status.curr_road == 1))) {
+            (*it).Play_Event(&hero, output, settings);
+        } else {
+            output.Write_Str_Terminal("Добро пожаловить в While(1) hero!");
+            output.Write_Str_Terminal(
+                    "Ваша задача пройти через преграды на пути и превратить все клетки пути в цветные!");
+            this_thread::sleep_for(delay);
+        }
+
+        //Check lose
+        if (hero.Get_Hp() <= 0) {
+            output_lose();
+            break;
+        }
+
+        int temp_drop = rand() % 100;
+
+        //Drop Item
+        if (name_road == "Normal") {
+            if (temp_drop < chance_drop) {
+                Armor arm = Drop_Armor();
+                output_droped_arm(arm);
+                if (ask_question()) {
+                    hero.ChangeArmor(arm);
+                }
+            }
+        } else if (name_road != "Start") {
+            Boots ev_boots = (*it).Get_Boots();
+            if (temp_drop < ev_boots.get_weight()) {
+                output_droped_boots(ev_boots);
+                if (ask_question()) {
+                    hero.ChangeBoots(ev_boots);
+                }
+            }
+        }
+
+        this_thread::sleep_for(delay);
+
+        //Leave Hero
+        output.Draw_Hero_Terminal(path, it, stop);
 
 
-	//Delete_Path();
+        if (Screen_Size_Check() == 0) {
+            break;
+        }
+
+        rd_status.curr_road++;
+
+        //Next measugment
+        output.Write_Str_Terminal("                                                         ");
+        output.Write_Str_Terminal("-------------------------------------------------------");
+        output.Write_Str_Terminal("                                                         ");
+
+
+        ++it;
+        //Next loop
+        if (it == path.end()) {
+            it = path.begin();
+            rd_status.curr_loop++;
+            rd_status.curr_road = 1;
+        }
+    }
+
+	
 }
 
 
-Road* Game::Get_Head()
-{
-	return head;
-}
 
 void Game::output_win()
 {
-	string win = "Мои поздравления! Вы встромнили все клетки! Теперь вы сможете найти дорогу домой!";
+	string win = "Мои поздравления! Вы вспомнили все клетки! Теперь вы сможете найти дорогу домой!";
 	string end = "THE END........возможно)";
+    cout << "\033[0m";
 	cout << "\033[1;1H";
 	cout << "\033[2J";
-	cout << win;
-	cout << end;
+	cout << win << endl;
+	cout << end << endl;
 }
 
 void Game::output_lose()
 {
 	cout << "\033[1;1H";
 	cout << "\033[2J";
-	cout << "Герой не справился с испытанием и умер....";
+	cout << "Герой не справился с испытанием и умер...." << endl;
 }
 
 
 
-void Game::output_dropd_boots(Boots _bts)
+void Game::output_droped_boots(Boots _bts)
 {
 	string drop_boots = "Вам выпали ботинки: " + _bts.Get_Name();
-	output.Trigger_Write_Str_Terminal(drop_boots);
+	output.Write_Str_Terminal(drop_boots);
 }
-void Game::output_dropt_arm(Armor _arm)
+void Game::output_droped_arm(Armor _arm)
 {
 	string drop_boots = "Вам выпал грудак, тип: " + _arm.Get_Type() + ",  def:  " + to_string(_arm.Get_Defense());
-	output.Trigger_Write_Str_Terminal(drop_boots);
+	output.Write_Str_Terminal(drop_boots);
 }
 
 
 
 void Game::output_position()
 {
-	string pos = "Круг " + to_string(rd_status.сurr_loop) + " . Клетка " + to_string(rd_status.curr_road) + "/" + to_string(rd_status.road_len); 
-	output.Trigger_Write_Str_Terminal(pos);
+	string pos = "Круг " + to_string(rd_status.curr_loop) + " . Клетка " + to_string(rd_status.curr_road) + "/" + to_string(rd_status.road_len); 
+	output.Write_Str_Terminal(pos);
 }
 void Game::output_hero_status()
 {
@@ -364,24 +351,24 @@ void Game::output_hero_status()
 	{
 		stats = "HP: " + to_string(hero_hp) + " . Boots: " +  name_boots + ",   dur: "+ to_string(boots_dur) + ".   Armor,    def:  " + to_string(arm_def) + ", dur:   " + to_string(arm_dur);
 	}
-	output.Trigger_Write_Str_Terminal(stats);
+	output.Write_Str_Terminal(stats);
 }
 void Game::output_notification_about_changed_road()
 {
 	string def_smen = "Нормальная дорога изменилась...";
-	output.Trigger_Write_Str_Terminal(def_smen);
+	output.Write_Str_Terminal(def_smen);
 }
-void Game::output_step()
+void Game::output_step(list<Road>::iterator it)
 {
-	string step = "Вы наступили на " + head->Get_Name();
-	output.Trigger_Write_Str_Terminal(step);	
+	string step = "Вы наступили на " + (*it).Get_Name();
+	output.Write_Str_Terminal(step);	
 }
         
 
 
 
 
-int Game::get_weight(string type)
+int Game::get_weight(const string& type)
 {
     if (type == "common")
     {
@@ -406,9 +393,9 @@ Armor Game::Drop_Armor()
     map<string, int> count_types;
     string rarity;
     string raritys[] = {"common", "rare"};
-    for(int i = 0; i < default_armor.size(); i++)
+    for(auto & i : default_armor)
     {
-        rarity = default_armor[i].Get_Type();
+        rarity = i.Get_Type();
         auto rar_c = count_types.find(rarity);
         if (rar_c != count_types.end())
         {
@@ -418,9 +405,10 @@ Armor Game::Drop_Armor()
         {
             count_types.emplace(rarity,1);
         }
-        sum_weight+=default_armor[i].get_weight();
+        sum_weight+=i.get_weight();
     }
-    int chance = rand()%sum_weight;
+    int chance;
+    chance = rand() % sum_weight;
     int j = 0;
     while (chance > 0)
     {
@@ -449,18 +437,22 @@ Armor Game::Drop_Armor()
 }
 int Game::ask_question()
 {
-	string ask = "Хотите ли надеть? Y/N: ";
-	char answer; 
-	output.Trigger_Write_Str_Terminal(ask);
+	int answer; 
+	output.Write_Str_Terminal("Хотите ли надеть? Y/N: ");
 	cout << "\033[" << settings.SIZE_BOARDER+settings.ROW_COUNT+3 <<  ";25H";
-	answer = input.Trigger_In_Terminal();
-	if (answer == 'Y')
+	answer = input.In_Terminal();
+	if (answer == 1)
 	{
 		return 1;
 	}
-	else
+	else if (answer == 0)
 	{
 		return 0;
+	}
+	else
+	{
+		output.Write_Str_Terminal("Неправильный ввод");
+		return ask_question();
 	}
 }
 
@@ -633,7 +625,7 @@ Armor Game::create_armor_from_file(string id_armor)
 	return arm;
 }
 
-Game::Game(string level) 
+Game::Game(const string& level) : rd_status()
 {
 	ifstream fin(level);
 	vector<string> names_available_roads;
@@ -704,6 +696,4 @@ Game::Game(string level)
 		exit(1);
 	}
 	
-	head = nullptr;
-	start = nullptr;
 }

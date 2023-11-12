@@ -14,7 +14,7 @@ class Input_Terminal
         game_data settings;
     public:
         Input_Terminal();
-        Input_Terminal(game_data);
+        explicit Input_Terminal(game_data);
         char Get_Key();
 };
 
@@ -24,7 +24,7 @@ class Output_Terminal
         game_data settings;
     public:
         Output_Terminal();
-        Output_Terminal(game_data);
+        explicit Output_Terminal(game_data);
         void Draw_Road(int, int, string);
         void Write_Str(string, int);
         void Draw_Hero(int , int , string, string);

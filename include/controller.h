@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <list>
 
 #include "cell.h"
 #include "view_terminal.h"
@@ -18,9 +19,9 @@ class Input_Controller
         game_data settings;
     public:
         Input_Controller();
-        Input_Controller(game_data);
-        char Trigger_In_Terminal();
-        void set_settings(game_data);
+        explicit Input_Controller(const game_data&);
+        int In_Terminal();
+        void set_settings(const game_data&);
 };
 
 class Output_Controller
@@ -30,12 +31,12 @@ class Output_Controller
         game_data settings;
     public:
         Output_Controller();
-        Output_Controller(game_data);
-        void Trigger_Draw_Start_Road_Terminal(Road*);
-        void Trigger_Draw_Road_Terminal(Road*);
-        void Trigger_Draw_Hero_Terminal(Road*, string);
-        void Trigger_Write_Str_Terminal(string);
-        void set_settings(game_data);
+        explicit Output_Controller(const game_data&);
+        void Draw_Path_Terminal(list<Road>::const_iterator, list<Road>::const_iterator);
+        void Draw_Road_Terminal(Road);
+        void Draw_Hero_Terminal(list<Road>&, list<Road>::const_iterator, string);
+        void Write_Str_Terminal(string);
+        void set_settings(const game_data&);
 };
 
 #endif
