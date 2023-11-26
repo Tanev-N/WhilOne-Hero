@@ -10,26 +10,26 @@ string Item::Get_Type()
     return type;
 }
 
-Equipment::Equipment(string _type = "Default", int _durab = -1) : Item(_type), durability(_durab) {}
+Equipment::Equipment(string _type , int _durab ) : Item(_type), durability(_durab) {}
 Equipment::Equipment() : Item("Default"), durability(-1) {}
 
-int Equipment::Get_Durability(void)
+int Equipment::Get_Durability()
 {
     return durability;
 }
 
-Armor::Armor(string _type = "Default", int _durab = -1, int _def = 0) : Equipment(_type, _durab), defense(_def) {}
+Armor::Armor(string _type, int _durab = -1, int _def = 0) : Equipment(_type, _durab), defense(_def) {}
 Armor::Armor() : Equipment("Default", -1), defense(0) {}
 
-int Armor::Get_Defense(void)
+int Armor::Get_Defense()
 {
     return defense;
 }
 
-Boots::Boots(string _type = "Default", int _durab = -1, string _name = "Sandals") : Equipment(_type, _durab), name(_name){}
+Boots::Boots(string _type , int _durab = -1, string _name = "Sandals") : Equipment(_type, _durab), name(_name){}
 Boots::Boots() : Equipment("Default", -1), name("Sandals") {}
 
-string Boots::Get_Name(void)
+string Boots::Get_Name()
 {
     return name;
 }
