@@ -5,7 +5,7 @@
 Item::Item() : type("Default") {}
 Item::Item(string _type) : type(_type) {}
 
-string Item::Get_Type(void)
+string Item::Get_Type()
 {
     return type;
 }

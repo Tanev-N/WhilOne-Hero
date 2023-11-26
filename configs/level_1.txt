@@ -38,3 +38,12 @@
 	#Jungle
 	#Curse
 }
+
+
+#MONSTERS
+{
+	#Bandit
+	#Wolf
+	#Spider
+	#Slime
+}

@@ -104,6 +104,15 @@ void Output_Controller::Draw_Hero_Terminal(list<Road> &path, list<Road>::const_i
     
 }
 
+void Output_Controller::Draw_Monster_Terminal(list<Road>::const_iterator it, int direction)
+{
+    out_t.Draw_Monster((*it).GetX(), ((*it).GetY()) - direction, (*it).Get_Name(), (*it).Get_Monster().Get_Name());
+
+}
+
+
+
+
 
  int Input_Controller::In_Terminal()
  {

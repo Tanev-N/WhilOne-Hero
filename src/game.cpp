@@ -135,7 +135,11 @@ void Game::Create_Path()
 		}
 
 
+
+
 	} while (correct_road_check != 1);
+
+
 }
 
 
@@ -191,6 +195,12 @@ void Game::Play()
 
 	cout << endl;//
 	auto it = path.begin();
+
+    for(auto i = path.begin(); i != path.end(); i++)
+    {
+        (*i).merge_monsters(default_monsters);
+    }
+
 	while(true) {
 
         output_position();
@@ -241,7 +251,7 @@ void Game::Play()
         //Drop Item
         if (name_road == "Normal") {
             if (temp_drop < chance_drop) {
-                Armor arm = Drop_Armor();
+                Armor arm = Drop(default_armor);
                 output_droped_arm(arm);
                 if (ask_question()) {
                     hero.ChangeArmor(arm);
@@ -277,8 +287,16 @@ void Game::Play()
 
         ++it;
         //Next loop
+
+
+
+
+
         if (it == path.end()) {
             it = path.begin();
+            output.Write_Str_Terminal("Монстры начинают появляться на дороге...");
+
+            spawn_monsters();
             rd_status.curr_loop++;
             rd_status.curr_road = 1;
         }
@@ -387,13 +405,43 @@ int Game::get_weight(const string& type)
 }
 
 
-Armor Game::Drop_Armor()
+void Game::spawn_monsters()
 {
+    int direction = 0;
+    int spawn_chance = 50;
+    int curr_chance;
+    for (auto i = path.begin(); i != path.end(); ++i)
+    {
+        curr_chance = rand()%100;
+        if (curr_chance < spawn_chance)
+        {
+            vector<Monster> _monsters = (*i).Get_Monsters();
+            (*i).set_monster(Drop(_monsters) );
+            output.Draw_Monster_Terminal(i, direction);
+        }
+        else
+        {
+            spawn_chance+=50;
+        }
+        auto next_it = i;
+        ++next_it;
+        if (next_it == path.end())
+        {
+            next_it = path.begin();
+        }
+        direction += ((*i).GetY()) - ((*next_it).GetY());
+    }
+}
+
+template<typename T>
+T Game::Drop(vector<T>& default_thing)
+{
+
     int sum_weight = 0;
     map<string, int> count_types;
     string rarity;
-    string raritys[] = {"common", "rare"};
-    for(auto & i : default_armor)
+    string raritys[] = {"common", "rare", "evently"};
+    for(auto & i : default_thing)
     {
         rarity = i.Get_Type();
         auto rar_c = count_types.find(rarity);
@@ -405,7 +453,7 @@ Armor Game::Drop_Armor()
         {
             count_types.emplace(rarity,1);
         }
-        sum_weight+=i.get_weight();
+        sum_weight+=get_weight(i.Get_Type() );
     }
     int chance;
     chance = rand() % sum_weight;
@@ -425,17 +473,17 @@ Armor Game::Drop_Armor()
 	int i = 0;
 	while (k < rand_sequr_num)
 	{
-		if (default_armor[i].Get_Type() == raritys[j])
+		if (default_thing[i].Get_Type() == raritys[j])
 		{
 			k++;
 		}
 		i++;
 	}
 
-    return default_armor[i];
+    return default_thing[i];
 
 }
-int Game::ask_question()
+int Game::ask_question() // NOLINT(*-no-recursion)
 {
 	int answer; 
 	output.Write_Str_Terminal("Хотите ли надеть? Y/N: ");
@@ -512,7 +560,7 @@ Road* Game::create_road_from_file(string id_road)
 	ifstream rfin("../configs/Roads.txt");
 	search_id(&rfin, id_road);
 	Road* new_type_road = new Road();
-
+    vector<Monster> evently_monster;
 	check_left_scope(&rfin);
 
 	string word;
@@ -523,6 +571,26 @@ Road* Game::create_road_from_file(string id_road)
 	rfin >> word; // boots
 	
 	new_type_road->set_boots(create_boots_from_file(word));
+
+    rfin >> word;
+    if (word == "#Monsters")
+    {
+        check_left_scope(&rfin);
+        rfin >> word;
+        while( word != "}")
+        {
+            evently_monster.push_back(create_monster_from_file(word));
+            rfin >> word;
+        }
+    }
+    else
+    {
+        cerr << "Нет ивентовых монстров" << endl;
+        exit(-1);
+    }
+
+
+
 
 	rfin.get(); // знак перевода строки 
 	rfin.get(); // знак возврата коретки
@@ -541,7 +609,7 @@ Road* Game::create_road_from_file(string id_road)
 
 	Event new_event(good, bad, changer);
 	new_type_road->set_event(new_event);
-
+    new_type_road->set_monsters(evently_monster);
 	check_right_scope(&rfin);
 
 	rfin.close();
@@ -625,6 +693,44 @@ Armor Game::create_armor_from_file(string id_armor)
 	return arm;
 }
 
+Monster Game::create_monster_from_file(string id_monster)
+{
+    ifstream ifin("../configs/Monsters.txt");
+    string word;
+    search_id(&ifin, id_monster);
+    check_left_scope(&ifin);
+
+    string name;
+    ifin >> name;
+
+    string type;
+    ifin >> type;
+
+    int hp;
+    ifin >> word;
+    hp = stoi(word);
+
+    int attack;
+    ifin >> word;
+    attack = stoi(word);
+
+    int speed;
+    ifin >> word;
+    speed = stoi(word);
+
+    int defense;
+    ifin >> word;
+    defense = stoi(word);
+
+    check_right_scope(&ifin);
+    Monster mnstr(name,type, hp, attack, speed, defense);
+    ifin.close();
+
+    return mnstr;
+
+}
+
+
 Game::Game(const string& level) : rd_status()
 {
 	ifstream fin(level);
@@ -672,11 +778,26 @@ Game::Game(const string& level) : rd_status()
 				}
 			}
 
+            if (word == "#MONSTERS")
+            {
+                check_left_scope(&fin);
+                fin >> word;
+                while( word != "}")
+                {
+                    default_monsters.push_back(create_monster_from_file(word));
+                    fin >> word;
+                }
+            }
 
 			
 		}
 	}
 
+
+    for (auto i : all_roads) // defaul + event monsters in every spc_roads
+    {
+        i->merge_monsters(default_monsters);
+    }
 
 	Armor naked("Default", -1, 0);//Create of hero
 	Boots sandals("Default", -1, "Sandals");

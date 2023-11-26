@@ -15,6 +15,12 @@ string Cell::Get_Name() const
 {
     return name;
 }
+
+Monster Road::Get_Monster() const
+{
+    return(enemy);
+}
+
 Road::Road(int _x, int _y, const string& _name) : Cell(_x, _y, _name)
 {
     if (_name == "Normal")
@@ -26,6 +32,14 @@ Road::Road(int _x, int _y, const string& _name) : Cell(_x, _y, _name)
     }
 }
 
+void Road::set_monster(Monster _enemy){
+    enemy = _enemy;
+}
+
+void Road::set_monsters(vector<Monster> _monster)
+{
+    monsters = _monster;
+}
 
 void Cell::set_x(int _x)
 {
@@ -66,10 +80,21 @@ void Road::ChangeToSpc(vector<Road*> road_types)
     boots = road_types[road_num]->Get_Boots();
     event = road_types[road_num]->get_event();
     name = road_types[road_num]->Get_Name();
+    monsters = road_types[road_num]->Get_Monsters();
 }
 Boots Road::Get_Boots() const
 {
     return boots;
+}
+
+vector<Monster> Road::Get_Monsters()
+{
+    return monsters;
+}
+
+void Road::merge_monsters( vector<Monster> default_monsters)
+{
+    monsters.insert(monsters.end(), default_monsters.begin(), default_monsters.end());
 }
 
 void Road::Play_Event(Hero *hero, Output_Controller output, const game_data& sets)

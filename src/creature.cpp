@@ -12,6 +12,28 @@ void Creature::Set_hp(int _hp)
 }
 
 
+void Creature::takeDamage(int dam)
+{
+    hp -= dam;
+}
+void Creature::Heal(int heal, const game_data& set)
+{
+    if(hp+heal > set.MAX_HP)
+    {
+        hp = set.MAX_HP;
+    }
+    else
+    {
+        hp+=heal;
+    }
+}
+
+int Creature::Get_Hp() const
+{
+    return hp;
+}
+
+
 void Hero::ChangeBoots(Boots &_bts)
 {
     bts = _bts;
@@ -33,23 +55,40 @@ Armor& Hero::GetArmor()
 }
 
 
-void Creature::takeDamage(int dam)
+
+
+
+Monster::Monster() : name("Empty")
 {
-    hp -= dam;
+    hp = 0;
+    atk = 0;
+    spd = 0;
+    def = 0;
 }
-void Creature::Heal(int heal, const game_data& set)
+Monster::Monster(string _name, string _type, int _hp, int _atk, int _spd, int _def) : Creature(_hp),  name(_name), type(_type), atk(_atk), spd(_spd), def(_def) {}
+
+
+int Monster::Get_Attack()
 {
-    if(hp+heal > set.MAX_HP)
-    {
-        hp = set.MAX_HP;
-    }
-    else
-    {
-        hp+=heal;
-    }
+    return atk;
 }
 
-int Creature::Get_Hp() const
+int Monster::Get_Speed()
 {
-    return hp;
+    return spd;
+}
+
+int Monster::Get_Defense()
+{
+    return def;
+}
+
+string Monster::Get_Name()
+{
+    return name;
+}
+
+string Monster::Get_Type()
+{
+    return type;
 }

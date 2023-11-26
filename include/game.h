@@ -30,6 +30,7 @@ class Game
         Hero hero;
         vector<Road*> all_roads;
         vector<Armor> default_armor;
+        vector<Monster> default_monsters;
         list<Road> path;
         Input_Controller input;
         Output_Controller output;
@@ -50,9 +51,11 @@ class Game
         Road* create_road_from_file(string);
         Armor create_armor_from_file(string);
         Boots create_boots_from_file(string);
+        Monster create_monster_from_file(string);
         void search_id(ifstream* , string );
         int ask_question();
-        Armor Drop_Armor();
+        template<typename T>
+        T Drop(vector<T>&);
         static int get_weight(const string&) ;
         void output_position();
         void output_hero_status();
@@ -62,6 +65,7 @@ class Game
         void output_lose();
         void output_droped_boots(Boots);
         void output_droped_arm(Armor);
+        void spawn_monsters();
 };
 
 

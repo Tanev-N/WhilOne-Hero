@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <map>
 
 using namespace std;
 
@@ -29,8 +30,8 @@ class Output_Terminal
         void Write_Str(string, int);
         void Draw_Hero(int , int , string, string);
         int Get_Colour_Code(string);
-        
-        
+        void Draw_Monster(int , int , const string&, const string& );
+        const char* Get_Monster_Icon(string enemy);
 };
 
 #endif

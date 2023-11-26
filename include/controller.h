@@ -37,6 +37,7 @@ class Output_Controller
         void Draw_Hero_Terminal(list<Road>&, list<Road>::const_iterator, string);
         void Write_Str_Terminal(string);
         void set_settings(const game_data&);
+        void Draw_Monster_Terminal(list<Road>::const_iterator, int );
 };
 
 #endif
