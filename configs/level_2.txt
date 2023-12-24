@@ -1,0 +1,52 @@
+#MAX_LEN_ROAD
+{
+	17
+}
+
+#MAX_HP
+{
+	30
+}
+#MIN_LEN_ROAD
+{
+	13
+}
+
+
+
+#SIZE_BOARDER
+{
+	13
+}
+
+#ROW_COUNT
+{
+	15
+}
+
+#ARMOR
+{
+	#Chestplate_rare_short
+	#Chestplate_rare_long
+	#Chestplate_epic_short
+	#Chestplate_epic_long
+	#Chestplate_legendary_short
+	#Chestplate_legendary_long
+}
+
+#ROADS
+{
+	#Frozen_lake
+	#Cemetery
+	#Hell
+	#Swamp
+}
+
+
+#MONSTERS
+{
+	#Bear
+	#Goblin
+	#Elf
+	#T-Rex
+}

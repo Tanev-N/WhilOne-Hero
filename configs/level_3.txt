@@ -1,0 +1,53 @@
+#MAX_LEN_ROAD
+{
+	25
+}
+
+#MAX_HP
+{
+	40
+}
+#MIN_LEN_ROAD
+{
+	18
+}
+
+
+
+#SIZE_BOARDER
+{
+	17
+}
+
+#ROW_COUNT
+{
+	15
+}
+
+#ARMOR
+{
+    #Chestplate_epic_short
+    #Chestplate_epic_long
+    #Chestplate_legendary_short
+    #Chestplate_legendary_long
+    #Chestplate_unique
+    #Chestplate_holy_fastest
+    #Chestplate_holy_longest
+}
+
+#ROADS
+{
+	#Desert
+	#Deadly_river
+	#Magic_forest
+	#Highlands
+}
+
+
+#MONSTERS
+{
+	#Ninja
+	#Alien
+	#Fairy
+	#Vampire
+}
