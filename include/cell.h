@@ -53,7 +53,6 @@ class Road : public Cell
         void set_monster(Monster);
         void set_monsters(vector<Monster>);
         Event get_event() const;
-        void merge_monsters( vector<Monster> );
 };
 
 #endif

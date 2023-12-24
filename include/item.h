@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <map>
 
 using namespace std;
 
@@ -24,7 +25,7 @@ class Equipment: public Item
     public:
         Equipment(string, int);
         Equipment();
-        int Get_Durability();
+        int Get_Durability() const;
         void reduce_durability();
 
 };
@@ -36,7 +37,7 @@ class Armor : public Equipment
     public:
         Armor(string , int, int); 
         Armor();
-        int Get_Defense();
+        int Get_Defense() const;
 
 };
 

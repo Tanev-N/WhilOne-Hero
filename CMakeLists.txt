@@ -16,5 +16,4 @@ add_executable( whilone_game
                 src/item.cpp 
                 src/main.cpp 
                 src/view_terminal.cpp
-                
-                )
+)

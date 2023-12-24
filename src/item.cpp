@@ -13,7 +13,7 @@ string Item::Get_Type()
 Equipment::Equipment(string _type , int _durab ) : Item(_type), durability(_durab) {}
 Equipment::Equipment() : Item("Default"), durability(-1) {}
 
-int Equipment::Get_Durability()
+int Equipment::Get_Durability() const
 {
     return durability;
 }
@@ -21,7 +21,7 @@ int Equipment::Get_Durability()
 Armor::Armor(string _type, int _durab = -1, int _def = 0) : Equipment(_type, _durab), defense(_def) {}
 Armor::Armor() : Equipment("Default", -1), defense(0) {}
 
-int Armor::Get_Defense()
+int Armor::Get_Defense() const
 {
     return defense;
 }
@@ -36,20 +36,18 @@ string Boots::Get_Name()
 
 int Item::get_weight()
 {
-    if (type == "common")
-    {
-        return 100;
-    }
-    else if (type == "rare")
-    {
-        return 20;
-    }
-    else if (type == "evently")
-    {
-        return 15;
-    }
+    map<string, int> types_weight = {       {"common",  100},
+                                            {"rare",   33},
+                                            {"epic", 18},
+                                            {"legendary",   8},
+                                            {"unique",   4},
+                                            {"holy",  2},
 
-    return 0;
+
+                                            {"evently", 15}
+    };
+    return  types_weight.find(type)->second;
+
 }
 
 void Equipment::reduce_durability()

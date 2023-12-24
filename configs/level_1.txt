@@ -1,11 +1,11 @@
 #MAX_LEN_ROAD
 {
-	9
+	12
 }
 
 #MAX_HP
 {
-	25
+	20
 }
 #MIN_LEN_ROAD
 {
@@ -26,9 +26,12 @@
 
 #ARMOR
 {
-	#Cstpl1
-	#Cstpl2
-	#Cstpl3
+	#Chestplate_common_short
+	#Chestplate_common_long
+	#Chestplate_rare_short
+	#Chestplate_rare_long
+	#Chestplate_epic_short
+	#Chestplate_epic_long
 }
 
 #ROADS

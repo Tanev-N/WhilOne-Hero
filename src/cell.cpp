@@ -92,10 +92,7 @@ vector<Monster> Road::Get_Monsters()
     return monsters;
 }
 
-void Road::merge_monsters( vector<Monster> default_monsters)
-{
-    monsters.insert(monsters.end(), default_monsters.begin(), default_monsters.end());
-}
+
 
 void Road::Play_Event(Hero *hero, Output_Controller output, const game_data& sets)
 {

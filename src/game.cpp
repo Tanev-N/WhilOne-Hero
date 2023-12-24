@@ -134,7 +134,10 @@ void Game::Create_Path()
 			path.clear();
 		}
 
-
+    for(auto i = ++path.begin(); i != path.end(); ++i)
+    {
+        (*i).set_monsters(default_monsters);
+    }
 
 
 	} while (correct_road_check != 1);
@@ -176,7 +179,7 @@ road_status::road_status()
 	cout_spc_road = 0;
 }
 
-void Game::Play()
+int Game::Play()
 {
     Create_Path();
     rd_status.road_len = path.size();
@@ -195,11 +198,6 @@ void Game::Play()
 
 	cout << endl;//
 	auto it = path.begin();
-
-    for(auto i = path.begin(); i != path.end(); i++)
-    {
-        (*i).merge_monsters(default_monsters);
-    }
 
 	while(true) {
 
@@ -223,7 +221,7 @@ void Game::Play()
         //Check win
         if (rd_status.cout_spc_road == rd_status.road_len - 1) {
             output_win();
-            break;
+            return 1;
         }
         output_step(it);
 
@@ -243,7 +241,7 @@ void Game::Play()
         //Check lose
         if (hero.Get_Hp() <= 0) {
             output_lose();
-            break;
+            return 0;
         }
 
         int temp_drop = rand() % 100;
@@ -274,7 +272,7 @@ void Game::Play()
 
 
         if (Screen_Size_Check() == 0) {
-            break;
+            return 0;
         }
 
         rd_status.curr_road++;
@@ -388,20 +386,16 @@ void Game::output_step(list<Road>::iterator it)
 
 int Game::get_weight(const string& type)
 {
-    if (type == "common")
-    {
-        return 100;
-    }
-    else if (type == "rare")
-    {
-        return 20;
-    }
-    else if (type == "evently")
-    {
-        return 10;
-    }
+    map<string, int> types_weight = {       {"common",  100},
+                                          {"rare",   33},
+                                          {"epic", 18},
+                                          {"legendary",   8},
+                                          {"unique",   4},
+                                          {"holy",  2},
 
-	return 0;
+                                          {"evently", 15}
+    };
+    return  types_weight.find(type)->second;
 }
 
 
@@ -413,15 +407,11 @@ void Game::spawn_monsters()
     for (auto i = path.begin(); i != path.end(); ++i)
     {
         curr_chance = rand()%100;
-        if (curr_chance < spawn_chance)
+        if ( (curr_chance < spawn_chance) && (i != path.begin()) )
         {
             vector<Monster> _monsters = (*i).Get_Monsters();
             (*i).set_monster(Drop(_monsters) );
             output.Draw_Monster_Terminal(i, direction);
-        }
-        else
-        {
-            spawn_chance+=50;
         }
         auto next_it = i;
         ++next_it;
@@ -440,7 +430,7 @@ T Game::Drop(vector<T>& default_thing)
     int sum_weight = 0;
     map<string, int> count_types;
     string rarity;
-    string raritys[] = {"common", "rare", "evently"};
+    string raritys[] = {"common", "rare", "epic", "legendary", "unique", "holy"};
     for(auto & i : default_thing)
     {
         rarity = i.Get_Type();
@@ -461,8 +451,11 @@ T Game::Drop(vector<T>& default_thing)
     while (chance > 0)
     {
         auto rar_c = count_types.find(raritys[j]);
-        int weight_of_rarity = (rar_c->second)*get_weight(raritys[j]);
-		chance-=weight_of_rarity;
+        if (rar_c != count_types.end())
+        {
+            int weight_of_rarity = (rar_c->second)*get_weight(raritys[j]);
+            chance-=weight_of_rarity;
+        }
         j++;
     }
 	j--;
@@ -705,6 +698,12 @@ Monster Game::create_monster_from_file(string id_monster)
 
     string type;
     ifin >> type;
+    ifin.get(); // знак перевода строки
+    ifin.get(); // знак возврата коретки
+    ifin.get(); // табуляция
+
+    getline(ifin, word); // good action
+    string phrase = word;
 
     int hp;
     ifin >> word;
@@ -723,7 +722,8 @@ Monster Game::create_monster_from_file(string id_monster)
     defense = stoi(word);
 
     check_right_scope(&ifin);
-    Monster mnstr(name,type, hp, attack, speed, defense);
+    Monster mnstr(name,type, phrase, hp, attack, speed, defense);
+
     ifin.close();
 
     return mnstr;
@@ -761,10 +761,12 @@ Game::Game(const string& level) : rd_status()
 			{
 				check_left_scope(&fin);
 				fin >> word;
+
 				while( word != "}")
 				{
 					all_roads.push_back(create_road_from_file(word));
 					fin >> word;
+
 				}
 			}
 			if (word == "#ARMOR")
@@ -793,11 +795,6 @@ Game::Game(const string& level) : rd_status()
 		}
 	}
 
-
-    for (auto i : all_roads) // defaul + event monsters in every spc_roads
-    {
-        i->merge_monsters(default_monsters);
-    }
 
 	Armor naked("Default", -1, 0);//Create of hero
 	Boots sandals("Default", -1, "Sandals");

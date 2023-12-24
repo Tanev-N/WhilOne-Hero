@@ -33,17 +33,19 @@ class Hero : public Creature
 
 class Monster : public Creature
 {
-private:
+protected:
     string name;
     string type;
+    string phrase;
     int atk;
     int spd;
     int def;
 public:
     Monster();
-    Monster(string, string, int, int, int, int);
-    string Get_Name();
+    Monster(string, string, string, int, int, int, int);
+    string Get_Name() const;
     string Get_Type();
+    string Get_Phrase();
     int Get_Attack();
     int Get_Speed();
     int Get_Defense();

@@ -16,39 +16,64 @@ Output_Terminal::Output_Terminal(game_data _settings)
     settings = _settings;
 }
 
-int Output_Terminal::Get_Colour_Code(string type) // Из типа дороги в код её цвета
+int Output_Terminal::Get_Colour_Code(const string& type) // Из типа дороги в код её цвета
 {
-    if (type == "Normal")
-    {
-        return(47); // Белый цвет
-    }
-    if (type == "Start")
-    {
-        return(43); // Жёлтый цвет
-    }
-    if (type == "Volcano")
-    {
-        return 41;
-    }
-    if (type == "Ocean")
-    {
-        return 46;
-    }
-    if (type == "Curse")
-    {
-        return 45;
-    }
-    if (type == "Jungle")
-    {
-        return 42;
-    }
-    return 0;
+    map<string, int> color_cell = {       {"Normal",  47},
+                                          {"Start",   43},
+                                          {"Volcano", 41},
+                                          {"Ocean",   44},
+                                          {"Curse",   45},
+                                          {"Jungle",  42},
+                                          {"Frozen_lake",  46},
+                                          {"Cemetery", 100},
+                                          {"Hell", 101},
+                                          {"Swamp", 102},
+                                          {"Desert", 103},
+                                          {"Deadly_river", 104},
+                                          {"Magic_forest", 105},
+                                          {"Highlands", 106}
+    };
+    return  color_cell.find(type)->second;
 }
 
-const char* Output_Terminal::Get_Monster_Icon(string enemy) // Из монстра в букву, выводимую на экран
+const char* Output_Terminal::Get_Monster_Icon(const string& enemy) // Из монстра в букву, выводимую на экран
 {
-    map<string, const char*> map_of_enemies_icons = {{"bandit", "\U0001F92C"}, {"wolf", "\U0001F43A"}, {"spider", "\U0001F577"}, {"slime", "\U0001F922"}, {"dragon", "\U0001F432"}, {"lava_elemental", "\U0001F621"},
-                                              {"kraken", "\U0001F419"} , {"medusa", "\U0001F40D"},  {"monkey", "\U0001F435"} , {"treant", "\U0001F333"} , {"zombie", "\U0001F635"},  {"ghost", "\U0001F47B"}};
+    map<string, const char*> map_of_enemies_icons = {{"bandit", "\U0001F92C"},
+                                                     {"wolf", "\U0001F43A"},
+                                                     {"spider", "\U0001F577"},
+                                                     {"slime", "\U0001F922"},
+                                                     {"dragon", "\U0001F432"},
+                                                     {"lava_elemental", "\U0001F621"},
+                                                     {"kraken", "\U0001F419"} ,
+                                                     {"blowfish", "\U0001F421"},
+                                                     {"monkey", "\U0001F435"} ,
+                                                     {"treant", "\U0001F333"} ,
+                                                     {"zombie", "\U0001F9DF"},
+                                                     {"ghost", "\U0001F47B"},
+                                                     {"demon", "\U0001F47F"},
+                                                     {"skeleton", "\U0001F480"},
+                                                     {"ogre", "\U0001F479"},
+                                                     {"vampire", "\U0001F9DB"},
+                                                     {"merman", "\U0001F9DC"},
+                                                     {"elf", "\U0001F9DD"},
+                                                     {"genie", "\U0001F9DE"},
+                                                     {"mage", "\U0001F9D9"},
+                                                     {"fairy", "\U0001F9DA"},
+                                                     {"unicorn", "\U0001F984"},
+                                                     {"bear", "\U0001F43B"},
+                                                     {"penguin", "\U0001F427"},
+                                                     {"snowman", "\U00002603"},
+                                                     {"alien", "\U0001F47D"},
+                                                     {"magic_elemental", "\U0001F47E"},
+                                                     {"goblin", "\U0001F47A"},
+                                                     {"ice_elemental", "\U0001F976"},
+                                                     {"crocodile", "\U0001F40A"},
+                                                     {"T-Rex", "\U0001F996"},
+                                                     {"shark", "\U0001F988"},
+                                                     {"ninja", "\U0001F977"},
+                                                     {"snake", "\U0001F40D"}
+
+    };
     return  map_of_enemies_icons.find(enemy)->second;
 
 

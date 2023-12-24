@@ -65,7 +65,12 @@ Monster::Monster() : name("Empty")
     spd = 0;
     def = 0;
 }
-Monster::Monster(string _name, string _type, int _hp, int _atk, int _spd, int _def) : Creature(_hp),  name(_name), type(_type), atk(_atk), spd(_spd), def(_def) {}
+Monster::Monster(string _name, string _type, string _phrase, int _hp, int _atk, int _spd, int _def) : Creature(_hp),  name(_name), type(_type), phrase(_phrase), atk(_atk), spd(_spd), def(_def) {}
+
+string Monster::Get_Phrase()
+{
+    return phrase;
+}
 
 
 int Monster::Get_Attack()
@@ -83,7 +88,7 @@ int Monster::Get_Defense()
     return def;
 }
 
-string Monster::Get_Name()
+string Monster::Get_Name() const
 {
     return name;
 }

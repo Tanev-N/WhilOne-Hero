@@ -37,7 +37,7 @@ class Game
         game_data settings;
     public:
         Game(const string&);
-        void Play();
+        int Play();
         int Make_Step();
         int Step_Check(int, int, int);
         void Create_Path();

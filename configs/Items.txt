@@ -1,42 +1,161 @@
-#Cstpl1
+chestplate = rarity + durability + defense
+boots = rarity + durability + name
+
+#Chestplate_common_short
 {
 	common
-	15
-	1
-}
-#Cstpl2
-{
-	common
-	10
 	2
-}
-#Cstpl3
-{
-	rare
-	10
 	3
 }
+
+#Chestplate_common_long
+{
+	common
+	6
+	1
+}
+
+
+#Chestplate_rare_short
+{
+	rare
+	3
+	4
+}
+
+#Chestplate_rare_long
+{
+	rare
+	5
+	2
+}
+
+
+#Chestplate_epic_short
+{
+	epic
+	3
+	5
+}
+
+#Chestplate_epic_long
+{
+	epic
+	8
+	2
+}
+
+
+
+#Chestplate_legendary_short
+{
+	legendary
+	4
+	6
+}
+
+
+#Chestplate_legendary_long
+{
+	legendary
+	7
+	4
+}
+
+
+#Chestplate_unique
+{
+	unique
+	6
+	6
+}
+
+
+#Chestplate_holy_fastest
+{
+	holy
+	3
+	20
+}
+
+#Chestplate_holy_longest
+{
+	holy
+	20
+	3
+}
+
+
+#Fr_Boots
+{
+	evently
+	5
+	Ботинки_ледяного_озера
+}
+#Cm_Boots
+{
+	evently
+	5
+	Ботинки_некраманта
+}
+#He_Boots
+{
+	evently
+	5
+	Ботинки_дединсайда
+}
+#Sw_Boots
+{
+	evently
+	5
+	Ботинки_шрека
+}
+#Ri_Boots
+{
+	evently
+	5
+	Ботинки_посейдона
+}
+#De_Boots
+{
+	evently
+	5
+	Ботинки_шейха
+}
+#Ma_Boots
+{
+	evently
+	5
+	Ботинки_мага
+}
+#Hi_Boots
+{
+	evently
+	5
+	Ботинки_древних_русов
+}
+
 #Oc_Boots
 {
 	evently   
-	10
-	Boots_of_ocean
+	5
+	Ботинки_океана
 }
 #Vo_Boots
 {
 	evently   
-	10
-	Boots_of_volcano
+	5
+	Ботинки_лавы
 }
 #Ju_Boots
 {
 	evently   
-	10
-	Boots_of_jungle
+	5
+	Ботинки_джунглей
 }
 #Cu_Boots
 {
 	evently   
-	10
-	Boots_of_curse
+	5
+	Ботинки_порчи
 }
