@@ -1,0 +1,63 @@
+1
+continue
+#rd_status
+{
+	1
+	6
+	5
+	10
+}
+#Road
+{
+	#Start 1 2
+	#Ocean 1 1
+	#Curse 2 1
+	#Normal 3 1
+	#Normal 4 1
+	#Curse 4 2
+	#Jungle 4 3
+	#Normal 3 3
+	#Normal 2 3
+	#Curse 1 3
+}
+#Level
+{
+	1
+}
+#Exp
+{
+	0
+}
+#Hp
+{
+	10
+}
+#Speed
+{
+	1
+}
+#Atack
+{
+	1
+}
+#Boots
+{
+	evently
+	5
+	Ботинки_порчи
+}
+#Chestplate
+{
+	Майка
+	0
+	-2
+	Default
+}
+#Weapon
+{
+	common
+	sword
+	7
+	5
+	2
+}

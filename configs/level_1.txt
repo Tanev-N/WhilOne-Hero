@@ -5,7 +5,7 @@
 
 #MAX_HP
 {
-	20
+	100
 }
 #MIN_LEN_ROAD
 {
@@ -41,6 +41,15 @@
 	#Jungle
 	#Curse
 }
+
+#WEAPONS
+{
+	#Dagger
+	#Sword
+	#Club
+	#Bow
+}
+
 
 
 #MONSTERS

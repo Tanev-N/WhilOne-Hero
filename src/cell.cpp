@@ -11,6 +11,16 @@ int Cell::GetY() const
 {
     return y;
 }
+
+void Cell::SetX(int _x) {
+    x = _x;
+}
+void Cell::SetY(int _y)
+{
+    y = _y;
+}
+
+
 string Cell::Get_Name() const
 {
     return name;
@@ -25,7 +35,7 @@ Road::Road(int _x, int _y, const string& _name) : Cell(_x, _y, _name)
 {
     if (_name == "Normal")
     {
-        Event norml_event("Перед вами пустошь, вы чувствуете, что что-то не так...", "Набравшись силой необычных клеток, бог мира вас отвергает, теперь вы не можете переносить пустошь", 7);
+        Event norml_event("Перед вами пустошь, вы чувствуете, что что-то не так...", "Набравшись силой необычных клеток, бог мира вас отвергает, теперь вы не можете переносить пустошь", 5);
         event = norml_event;
         Boots bts;
         boots = bts;
@@ -41,14 +51,6 @@ void Road::set_monsters(vector<Monster> _monster)
     monsters = _monster;
 }
 
-void Cell::set_x(int _x)
-{
-    x = _x;
-}
-void Cell::set_y(int _y)
-{
-    y = _y;
-}
 void Cell::set_name(const string& _name)
 {
     name = _name;
@@ -91,6 +93,15 @@ vector<Monster> Road::Get_Monsters()
 {
     return monsters;
 }
+
+
+void Road::set_weapons(vector<Weapon> _weapons)
+{
+    weapons = _weapons;
+}
+
+
+
 
 
 

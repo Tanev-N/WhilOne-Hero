@@ -1,0 +1,61 @@
+1
+continue
+#rd_status
+{
+	1
+	2
+	3
+	8
+}
+#Road
+{
+	#Start 4 9
+	#Jungle 4 10
+	#Normal 3 10
+	#Normal 2 10
+	#Jungle 2 9
+	#Normal 2 8
+	#Jungle 3 8
+	#Normal 4 8
+}
+#Level
+{
+	1
+}
+#Exp
+{
+	0
+}
+#Hp
+{
+	86
+}
+#Speed
+{
+	1
+}
+#Atack
+{
+	1
+}
+#Boots
+{
+	evently
+	5
+	Ботинки_джунглей
+}
+#Chestplate
+{
+	Майка
+	0
+	-5
+	Default
+}
+#Weapon
+{
+	Default
+	Кулаки
+	-1
+	1
+	6
+}

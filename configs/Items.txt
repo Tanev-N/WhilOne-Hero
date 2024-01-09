@@ -1,9 +1,385 @@
-chestplate = rarity + durability + defense
-boots = rarity + durability + name
+chestplate = rarity + name + durability + defense
+boots = rarity + name + durability
+weapons = rarity + name + durability + attack + speed
+
+
+
+
+#Sandals
+{
+    Default
+    Сандали
+    -1
+}
+
+
+
+#Dagger
+{
+    common
+    dagger
+    7
+    2
+    5
+}
+
+#Sharpened_Dagger
+{
+    common
+    sharpened_dagger
+    7
+    4
+    5
+}
+
+#Glint_Of_Silver
+{
+    common
+    glint_of_silver
+    7
+    6
+    5
+}
+
+#Sword
+{
+    common
+    sword
+    7
+    5
+    2
+}
+
+#Sturdy_Sword
+{
+    common
+    sturdy_sword
+    8
+    6
+    3
+}
+
+#Soldier's_Courage
+{
+    common
+    soldier's_courage
+    8
+    8
+    4
+}
+
+#Club
+{
+    common
+    club
+    10
+    4
+    2
+}
+
+#Oak_Club
+{
+    common
+    oak_club
+    10
+    5
+    2
+}
+
+#Giant_Branch
+{
+    common
+    giant_branch
+    10
+    8
+    2
+}
+
+#Bow
+{
+    rare
+    bow
+    6
+    5
+    4
+}
+
+#Quick_Bow
+{
+    rare
+    quick_bow
+    6
+    5
+    6
+}
+
+#Elf's_Pride
+{
+    rare
+    elf's_pride
+    6
+    5
+    9
+}
+
+
+#Magma_Rock
+{
+	common
+	magma_rock
+	10
+	2
+	5
+}
+
+
+#Fire_Staff
+{
+	epic
+	fire_staff
+	5
+	10
+	3
+}
+
+#Tentacle
+{
+	epic
+	tentacle
+	7
+	6
+	2
+}
+
+#Ship_Cannon
+{
+	rare
+	ship_cannon
+	2
+	12
+	1
+}
+
+#Water_Bottle
+{
+	common
+	water_bottle
+	1
+	5
+	9
+}
+
+#Earth_Staff
+{
+	legendary
+	earth_staff
+	10
+	5
+	4
+}
+
+#Thorn_Whip
+{
+	epic
+	thorn_whip
+	4
+	8
+	7
+}
+
+#Skull_Staff
+{
+	rare
+	skull_staff
+	4
+	5
+	5
+}
+
+#Cursed_Greatsword
+{
+	unique
+	cursed_greatsword
+	10
+	15
+	1
+}
+
+#Dirt
+{
+	common
+	dirt
+	3
+	2
+	6
+}
+
+#Ice_Dagger
+{
+	epic
+	ice_dagger
+	3
+	9
+	8
+}
+
+#Snowballs
+{
+	common
+	snowballs
+	5
+	1
+	8
+}
+
+#Shovel
+{
+	common
+	shovel
+	4
+	4
+	4
+}
+
+#Crucifix
+{
+	holy
+	crucifix
+	5
+	20
+	8
+}
+
+#Devil's_Horns
+{
+	legendary
+	devil_horns
+	6
+	6
+	6
+}	
+
+#Hell_Scourge
+{
+	epic
+	hell_scourge
+	4
+	7
+	5
+}
+
+#ULTIMATE_INFERNO_NETHER_BRICK
+{
+	common
+	ULTIMATE_INFERNO_NETHER_BRICK
+	1
+	1
+	9
+}
+
+#Mud_Knuckles
+{
+	rare
+	mud_knuckles
+	9
+	3
+	6
+}
+
+#Slime_Spear
+{
+	common
+	slime_spear
+	3
+	4
+	2
+}
+
+#Cactus_Sword
+{
+	common
+	cactus_sword
+	3
+	7
+	1
+}
+
+#Sand_Bow
+{
+	rare
+	sand_bow
+	3
+	10
+	4
+}
+
+#Shark_Gun
+{
+	unique
+	shark_gun
+	10
+	6
+	9
+}
+
+#Harpoon
+{
+	epic
+	harpoon
+	5
+	4	
+	6
+}
+
+#Magic_Crystal
+{
+	epic
+	magic_crystal 
+	3
+	8
+	4
+}
+
+#Arcane_Tome
+{
+	legendary
+	arcane_tome
+	5
+	6
+	8
+}
+
+#The_Essence_Of_Magic
+{
+	holy
+	the_essence_of_magic
+	20
+	20
+	2
+}
+
+#Huge_Greatsword
+{
+	rare
+	huge_greatsword
+	6
+	12
+	1
+}
+
+#Rage
+{
+	unique
+	rage
+	20
+	3
+	6
+}
 
 #Chestplate_common_short
 {
 	common
+	stone_armor
 	2
 	3
 }
@@ -11,14 +387,15 @@ boots = rarity + durability + name
 #Chestplate_common_long
 {
 	common
+	wood_armor
 	6
 	1
 }
 
-
 #Chestplate_rare_short
 {
 	rare
+	bronze_armor
 	3
 	4
 }
@@ -26,6 +403,7 @@ boots = rarity + durability + name
 #Chestplate_rare_long
 {
 	rare
+	copper_armor
 	5
 	2
 }
@@ -34,6 +412,7 @@ boots = rarity + durability + name
 #Chestplate_epic_short
 {
 	epic
+	gold_armor
 	3
 	5
 }
@@ -41,15 +420,16 @@ boots = rarity + durability + name
 #Chestplate_epic_long
 {
 	epic
+	steel_armor
 	8
 	2
 }
 
 
-
 #Chestplate_legendary_short
 {
 	legendary
+	adamantite_armor
 	4
 	6
 }
@@ -58,6 +438,7 @@ boots = rarity + durability + name
 #Chestplate_legendary_long
 {
 	legendary
+	titanium_armor
 	7
 	4
 }
@@ -66,6 +447,7 @@ boots = rarity + durability + name
 #Chestplate_unique
 {
 	unique
+	hell_armor
 	6
 	6
 }
@@ -74,6 +456,7 @@ boots = rarity + durability + name
 #Chestplate_holy_fastest
 {
 	holy
+	cursed_armor
 	3
 	20
 }
@@ -81,6 +464,7 @@ boots = rarity + durability + name
 #Chestplate_holy_longest
 {
 	holy
+	holy_armor
 	20
 	3
 }
@@ -89,73 +473,73 @@ boots = rarity + durability + name
 #Fr_Boots
 {
 	evently
-	5
 	Ботинки_ледяного_озера
+	5
 }
 #Cm_Boots
 {
 	evently
-	5
 	Ботинки_некраманта
+	5
 }
 #He_Boots
 {
 	evently
-	5
 	Ботинки_дединсайда
+	5
 }
 #Sw_Boots
 {
 	evently
-	5
 	Ботинки_шрека
+	5
 }
 #Ri_Boots
 {
 	evently
-	5
 	Ботинки_посейдона
+	5
 }
 #De_Boots
 {
 	evently
-	5
 	Ботинки_шейха
+	5
 }
 #Ma_Boots
 {
 	evently
-	5
 	Ботинки_мага
+	5
 }
 #Hi_Boots
 {
 	evently
-	5
 	Ботинки_древних_русов
+	5
 }
 
 #Oc_Boots
 {
-	evently   
-	5
+	evently
 	Ботинки_океана
+	5
 }
 #Vo_Boots
 {
-	evently   
-	5
+	evently
 	Ботинки_лавы
+	5
 }
 #Ju_Boots
 {
-	evently   
-	5
+	evently
 	Ботинки_джунглей
+	5
 }
 #Cu_Boots
 {
-	evently   
-	5
+	evently
 	Ботинки_порчи
+	5
 }

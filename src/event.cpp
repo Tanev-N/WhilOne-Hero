@@ -25,15 +25,3 @@ int Event::get_changer() const
 {
     return changer_hp;
 }
-void Event::set_good(const string& _good)
-{
-    good = _good;
-}
-void Event::set_bad(const string& _bad)
-{
-    bad = _bad;
-}
-void Event::set_changer(int _chr)
-{
-    changer_hp = _chr;
-}

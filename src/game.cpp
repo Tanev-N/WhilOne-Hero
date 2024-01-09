@@ -179,27 +179,77 @@ road_status::road_status()
 	cout_spc_road = 0;
 }
 
-int Game::Play()
+int Game::Play(string name_player_file, bool new_player)
 {
-    Create_Path();
-    rd_status.road_len = path.size();
 
+    //if (Screen_Size_Check() == 0) {
+     //   return 0;
+    //}
 	string go = "Go";
 	string stop = "Stop";
 
 	int chance_drop = 25;
 	int chance_special = 33;
+    cout << "\033[2J"; // Clear display
+    if (new_player)
+    {
+        Create_Path();
+        rd_status.road_len = path.size();
 
-	cout << "\033[2J"; // Clear display
-	output.Draw_Path_Terminal(path.begin(), path.end()); 
-	
+        output.Draw_Path_Terminal(path.begin(), path.end());
+    }
+    else
+    {
+        load_file(name_player_file);
+        for( auto &i : path)
+        {
+            if (i.Get_Name() == "Normal")
+            {
+                i.set_monsters(default_monsters);
+            }
 
-	chrono::milliseconds delay(4000);
+        }
+        cout << "\033[2J"; // Clear display
+        output.Draw_Path_Terminal(path.begin(), path.end());
+        spawn_monsters();
+
+    }
+
+
+
+
+
+
+
+
+	chrono::milliseconds delay(800);
 
 	cout << endl;//
 	auto it = path.begin();
 
 	while(true) {
+
+
+        if ((*it).Get_Monster().Get_Name() != "Empty")
+        {
+            int battle_result;
+            battle_result = Battle((*it).Get_Monster());
+            if (battle_result == 0)
+            {
+                output_lose();
+                return 0;
+            }
+            else
+            {
+                Monster empty;
+                (*it).set_monster(empty);
+                Battle_End();
+                output.Write_Str_Terminal("                                                         ");
+                output.Write_Str_Terminal("-------------------------------------------------------");
+                output.Write_Str_Terminal("                                                         ");
+            }
+        }
+
 
         output_position();
         output_hero_status();
@@ -220,7 +270,9 @@ int Game::Play()
         output.Draw_Hero_Terminal(path, it, go);
         //Check win
         if (rd_status.cout_spc_road == rd_status.road_len - 1) {
+            save(name_player_file, "win");
             output_win();
+            output.clear_controller();
             return 1;
         }
         output_step(it);
@@ -241,6 +293,7 @@ int Game::Play()
         //Check lose
         if (hero.Get_Hp() <= 0) {
             output_lose();
+            output.clear_controller();
             return 0;
         }
 
@@ -248,14 +301,31 @@ int Game::Play()
 
         //Drop Item
         if (name_road == "Normal") {
-            if (temp_drop < chance_drop) {
-                Armor arm = Drop(default_armor);
-                output_droped_arm(arm);
-                if (ask_question()) {
-                    hero.ChangeArmor(arm);
+            if (temp_drop <= chance_drop)
+            {
+                int arm_wep = rand() % 2;
+                if (arm_wep == 0)
+                {
+                    Armor arm = Drop(default_armor);
+                    output_droped_arm(arm);
+                    if (ask_question())
+                    {
+                            hero.ChangeArmor(arm);
+                    }
+                }
+                else
+                {
+                    Weapon wep = Drop(default_weapons);
+                    output_droped_wep(wep);
+                    if (ask_question())
+                    {
+                        hero.ChangeWeapon(wep);
+                    }
                 }
             }
-        } else if (name_road != "Start") {
+
+        }
+        else if (name_road != "Start") {
             Boots ev_boots = (*it).Get_Boots();
             if (temp_drop < ev_boots.get_weight()) {
                 output_droped_boots(ev_boots);
@@ -293,14 +363,175 @@ int Game::Play()
         if (it == path.end()) {
             it = path.begin();
             output.Write_Str_Terminal("Монстры начинают появляться на дороге...");
-
             spawn_monsters();
             rd_status.curr_loop++;
             rd_status.curr_road = 1;
+            save(name_player_file, "NEXT_LOOP");
         }
     }
 
 	
+}
+
+
+
+int Game::Battle(Monster enemy)
+{
+    int enemy_hp = enemy.Get_Hp();
+    int enemy_spd = enemy.Get_Speed();
+    int hero_spd = hero.Get_Speed();
+    int battle_spd = 10;
+    int damage;
+    int enemy_idle_time = 0;
+    int hero_idle_time = 0;
+    Battle_Start(enemy);
+    chrono::milliseconds combat_delay(1500);
+    while ((enemy_hp > 0) && (hero.Get_Hp() > 0))
+    {
+        if ((battle_spd - enemy_spd - enemy_idle_time) <= 0) // Монстр наносит удар (Его скорость выросла до значения battle_speed)
+        {
+            if (enemy.Get_Attack() >= (hero.Get_Defense() + hero.GetArmor().Get_Defense()))
+            {
+                damage = enemy.Get_Attack() - (hero.Get_Defense() + hero.GetArmor().Get_Defense());
+            }
+            else
+            {
+                damage = 0;
+            }
+            hero.takeDamage(damage);
+            hero.GetArmor().reduce_durability();
+            if (hero.GetArmor().Get_Durability() == 0)
+            {
+                output.Write_Str_Terminal("Ваша броня сломалась! Приготовьтесь!");
+                Armor arm;
+                hero.ChangeArmor(arm);
+            }
+            output.Colour_Entity_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 6), "Nothing", "hit");
+            output.Write_Str_Terminal(enemy.Get_Name() + " наносит удар! Вы получаете " + to_string(damage) + " урона.");
+            enemy_idle_time = 0;
+            this_thread::sleep_for(combat_delay);
+        }
+        else
+        {
+            enemy_idle_time++;
+        }
+        if ((battle_spd - hero_spd - hero_idle_time) <= 0 )
+        {
+            if ((hero.Get_Attack() + hero.GetWeapon().Get_Attack()) > enemy.Get_Defense())
+            {
+                damage = (hero.Get_Attack() + hero.GetWeapon().Get_Attack()) - enemy.Get_Defense();
+            }
+            else
+            {
+                output.Write_Str_Terminal("Ваша атака слишком слаба..."); // Сообщение о том, что у героя слишком слабая атака. (Наносится один урон)
+                damage = 1;
+            }
+            enemy_hp -= damage;
+            hero.GetWeapon().reduce_durability();
+            if (hero.GetWeapon().Get_Durability() == 0)
+            {
+                output.Write_Str_Terminal("Ваше оружие сломалось! Руки героя сжимаются в кулаки...");
+                Weapon wep;
+                hero.ChangeWeapon(wep);
+            }
+            output.Colour_Entity_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 1), "Nothing", "hit");
+            output.Write_Str_Terminal("Вы наносите удар! " + enemy.Get_Name() + " получает " + to_string(damage) + " урона.");
+            hero_idle_time = 0;
+            this_thread::sleep_for(combat_delay);
+        }
+        else
+        {
+            hero_idle_time++;
+        }
+
+        output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 1));
+        output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 6)); // Исчезает огонёк
+    }
+    if (hero.Get_Hp() <= 0)
+    {
+        output_lose();
+        return 0;
+    }
+    else
+    {
+        output.Write_Str_Terminal("Вы победили! Противник был повержен!");
+        int new_exp = hero.Get_Exp() + enemy.Get_Exp();
+        if (new_exp >= 100)
+        {
+            hero.Level_Up(settings);
+        }
+    }
+    Reward();
+    return 1;
+}
+
+
+
+
+
+void Game::Battle_Start(Monster enemy)
+{
+    output.Undraw_Path_Terminal(path.begin(), path.end());
+    output.Colour_Entity_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 - 1), "Nothing", "hero");
+    output.Colour_Entity_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 10), "Nothing", enemy.Get_Name());
+    output.Write_Str_Terminal(enemy.Get_Phrase());
+}
+
+void Game::Reward()
+{
+    int loot = rand() % 3;
+    switch(loot)
+    {
+        case 0:
+        {
+            output.Write_Str_Terminal("Обыскав труп монстра, вы ничего не нашли.");
+            break;
+        }
+        case 1:
+        {
+            output.Write_Str_Terminal("Обыскав труп монстра, вы находите... броню!");
+            Armor arm = Drop(default_armor);
+            output_droped_arm(arm);
+            if (ask_question())
+            {
+                hero.ChangeArmor(arm);
+            }
+            break;
+        }
+        case 2:
+        {
+            output.Write_Str_Terminal("Обыскав труп монстра, вы находите... оружие!");
+            Weapon wep = Drop(default_weapons);
+            output_droped_wep(wep);
+            if (ask_question())
+            {
+                hero.ChangeWeapon(wep);
+            }
+            break;
+        }
+    }
+}
+
+void Game::Battle_End()
+{
+    auto it_begin = path.begin();
+    auto it_end = path.end();
+    output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, settings.SIZE_BOARDER/2);
+    output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 1));
+    output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 2));
+    output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 3));
+    output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 4));
+    output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 5));
+    output.Draw_Path_Terminal(it_begin, it_end);
+    output.Draw_Monsters_Terminal(it_begin, it_end);
+}
+
+
+
+void Game::output_droped_wep(Weapon _wep)
+{
+    string drop_wep = "Вам выпало оружие: " + _wep.Get_Name() + ", atk: " + to_string(_wep.Get_Attack()) + ", spd: " + to_string(_wep.Get_Speed()) + ", dur: " + to_string(_wep.Get_Durability());
+    output.Write_Str_Terminal(drop_wep);
 }
 
 
@@ -402,8 +633,9 @@ int Game::get_weight(const string& type)
 void Game::spawn_monsters()
 {
     int direction = 0;
-    int spawn_chance = 50;
+    int spawn_chance = 15;
     int curr_chance;
+    chrono::milliseconds delay(700);
     for (auto i = path.begin(); i != path.end(); ++i)
     {
         curr_chance = rand()%100;
@@ -412,6 +644,8 @@ void Game::spawn_monsters()
             vector<Monster> _monsters = (*i).Get_Monsters();
             (*i).set_monster(Drop(_monsters) );
             output.Draw_Monster_Terminal(i, direction);
+            cout << flush;
+            this_thread::sleep_for(delay);
         }
         auto next_it = i;
         ++next_it;
@@ -547,6 +781,178 @@ void Game::check_right_scope(ifstream* fin)
 	}
 }
 
+void Game::save(string player_file, string action)
+{
+    ofstream file(player_file);
+    string word;
+    if (action == "win")
+    {
+        file << number_level << endl;
+        file << "new" << endl;
+        file << "#rd_status" << endl;
+        file << "{" << endl;
+        file << "\t" << "1" << endl;
+        file << "\t" << "1" << endl;
+        file << "\t" << "0" << endl;
+        file << "\t" << "0" << endl;
+        file << "}" << endl;
+    }
+    else
+    {
+        file << number_level << endl;
+        file << "continue" << endl;
+        file << "#rd_status" << endl;
+        file << "{" << endl;
+        file << "\t" << rd_status.curr_road << endl;
+        file << "\t" << rd_status.curr_loop << endl;
+        file << "\t" << rd_status.cout_spc_road << endl;
+        file << "\t" << rd_status.road_len << endl;
+        file << "}" << endl;
+    }
+
+    file << "#Road" << endl;
+    file << "{" << endl;
+    for (auto i : path)
+    {
+        string command_road = "#" + i.Get_Name();
+        file << "\t" << command_road << " " <<  i.GetX() << " " << i.GetY() <<  endl;
+    }
+    file << "}" << endl;
+
+    file << "#Level" << endl;
+    file << "{" << endl;
+    file << "\t" << hero.Get_level() << endl;
+    file << "}" << endl;
+
+    file << "#Exp" << endl;
+    file << "{" << endl;
+    file << "\t" << hero.Get_Exp() << endl;
+    file << "}" << endl;
+
+    file << "#Hp" << endl;
+    file << "{" << endl;
+    file << "\t" << hero.Get_Hp() << endl;
+    file << "}" << endl;
+
+    file << "#Speed" << endl;
+    file << "{" << endl;
+    file << "\t" << hero.Get_Speed() << endl;
+    file << "}" << endl;
+
+    file << "#Atack" << endl;
+    file << "{" << endl;
+    file << "\t" << hero.Get_Attack() << endl;
+    file << "}" << endl;
+
+    file << "#Boots" << endl;
+    file << "{" << endl;
+    file << "\t" <<  ( hero.GetBoots().Get_Type() ) << endl;
+    file << "\t" <<  ( hero.GetBoots().Get_Durability() ) << endl;
+    file << "\t" <<  ( hero.GetBoots().Get_Name() ) << endl;
+    file << "}" << endl;
+
+    file << "#Chestplate" << endl;
+    file << "{" << endl;
+    file << "\t" << ( hero.GetArmor().Get_Name() ) << endl;
+    file << "\t" <<  ( hero.GetArmor().Get_Defense() ) << endl;
+    file << "\t" <<  ( hero.GetArmor().Get_Durability() ) << endl;
+    file << "\t" <<  ( hero.GetArmor().Get_Type() ) << endl;
+    file << "}" << endl;
+
+    file << "#Weapon" << endl;
+    file << "{" << endl;
+    file << "\t" << ( hero.GetWeapon().Get_Type() ) << endl;
+    file << "\t" <<  ( hero.GetWeapon().Get_Name()) << endl;
+    file << "\t" <<  ( hero.GetWeapon().Get_Durability() ) << endl;
+    file << "\t" <<  ( hero.GetWeapon().Get_Attack() )  << endl;
+    file << "\t" <<  ( hero.GetWeapon().Get_Speed() )  << endl;
+    file << "}" << endl;
+
+    file.close();
+
+}
+
+
+void Game::load_file(string player_file)
+{
+    ifstream file(player_file);
+    string word;
+    file >> word; //number_level
+    file >> word; // win or continue
+    file >> word; //#rd_status
+    file >> word; //{
+    file >> word; // rd_status.curr_road
+    rd_status.curr_road = stoi(word);
+    file >> word; //rd_status.curr_loop
+    rd_status.curr_loop = stoi(word);
+    file >> word; //rd_status.cout_spc_road
+    rd_status.cout_spc_road = stoi(word);
+    file >> word; //rd_status.road_len
+    rd_status.road_len = stoi(word);
+    file >> word; // }
+
+    file >> word; // #Road
+    file >> word; // {
+    file >> word; // road_name or }
+    while (word != "}")
+    {
+        Road road = *create_road_from_file(word);
+        file >> word;
+        road.SetX(stoi(word));
+        file >> word;
+        road.SetY(stoi(word));
+        file >> word;
+        path.push_back(road);
+    }
+
+    hero.load_hero(&file);
+    settings.MAX_HP += hero.Get_level()*10;
+    file.close();
+
+
+
+
+}
+
+
+
+Weapon Game::create_weapon_from_file(string id_weapon)
+{
+    ifstream ifin("../configs/Items.txt");
+    string word;
+    search_id(&ifin, id_weapon);
+    check_left_scope(&ifin);
+
+    string rarity;
+    ifin >> rarity;
+
+    string name;
+    ifin >> name;
+
+    int durability;
+    ifin >> word;
+    durability = stoi(word);
+
+    int attack;
+    ifin >> word;
+    attack = stoi(word);
+
+    int speed;
+    ifin >> word;
+    speed = stoi(word);
+
+    check_right_scope(&ifin);
+    ifin.close();
+
+    Weapon weap(rarity, name, durability, attack, speed);
+
+    return weap;
+}
+
+
+
+
+
 
 Road* Game::create_road_from_file(string id_road)
 {
@@ -554,6 +960,7 @@ Road* Game::create_road_from_file(string id_road)
 	search_id(&rfin, id_road);
 	Road* new_type_road = new Road();
     vector<Monster> evently_monster;
+    vector<Weapon> evently_weapons;
 	check_left_scope(&rfin);
 
 	string word;
@@ -565,7 +972,24 @@ Road* Game::create_road_from_file(string id_road)
 	
 	new_type_road->set_boots(create_boots_from_file(word));
 
+    rfin >> word; // weapons
+
+
+
+    if (word == "#Weapons")
+    {
+        check_left_scope(&rfin);
+        rfin >> word;
+        while( word != "}")
+        {
+            evently_weapons.push_back(create_weapon_from_file(word));
+            rfin >> word;
+        }
+    }
+
+
     rfin >> word;
+
     if (word == "#Monsters")
     {
         check_left_scope(&rfin);
@@ -643,18 +1067,19 @@ Boots Game::create_boots_from_file(string id_boots)
 	string rarity;
 	ifin >> rarity;
 
-	int durabiliry;
+
+    string name;
+    ifin >> name;
+
+	int durability;
 
 	ifin >> word;
-	durabiliry = stoi(word);
-	
-	string name;
-	ifin >> name;
-	
+    durability = stoi(word);
+
 	check_right_scope(&ifin);
   
 	ifin.close();
-	Boots bts(rarity, durabiliry, name);
+	Boots bts(rarity, name, durability);
 
 
 	return bts;
@@ -670,17 +1095,20 @@ Armor Game::create_armor_from_file(string id_armor)
 	string rarity;
 	ifin >> rarity;
 
-	int durabiliry;
+    string name;
+    ifin >> name;
+
+    int durability;
 
 	ifin >> word;
-	durabiliry = stoi(word);
+    durability = stoi(word);
 	
 	int defense;
 	ifin >> word;
 	defense = stoi(word);
 
 	check_right_scope(&ifin);
-	Armor arm(rarity, durabiliry, defense);
+	Armor arm(rarity,name, durability, defense);
 	ifin.close();
 
 	return arm;
@@ -709,6 +1137,10 @@ Monster Game::create_monster_from_file(string id_monster)
     ifin >> word;
     hp = stoi(word);
 
+    int exp;
+    ifin >> word;
+    exp = stoi(word);
+
     int attack;
     ifin >> word;
     attack = stoi(word);
@@ -722,7 +1154,7 @@ Monster Game::create_monster_from_file(string id_monster)
     defense = stoi(word);
 
     check_right_scope(&ifin);
-    Monster mnstr(name,type, phrase, hp, attack, speed, defense);
+    Monster mnstr(name,type, phrase, hp, exp, attack, speed, defense);
 
     ifin.close();
 
@@ -731,7 +1163,7 @@ Monster Game::create_monster_from_file(string id_monster)
 }
 
 
-Game::Game(const string& level) : rd_status()
+Game::Game(const string& level, int number_lvl) : rd_status()
 {
 	ifstream fin(level);
 	vector<string> names_available_roads;
@@ -740,6 +1172,7 @@ Game::Game(const string& level) : rd_status()
 		cout << "Файл не открылся" << endl;
 		exit(1);
 	}
+    number_level = number_lvl;
 	string word, key;
 	while (!fin.eof())
 	{
@@ -769,6 +1202,18 @@ Game::Game(const string& level) : rd_status()
 
 				}
 			}
+
+            if (word == "#WEAPONS")
+            {
+                check_left_scope(&fin);
+                fin >> word;
+                while( word != "}")
+                {
+                    default_weapons.push_back(create_weapon_from_file(word));
+                    fin >> word;
+                }
+            }
+
 			if (word == "#ARMOR")
 			{
 				check_left_scope(&fin);
@@ -796,8 +1241,8 @@ Game::Game(const string& level) : rd_status()
 	}
 
 
-	Armor naked("Default", -1, 0);//Create of hero
-	Boots sandals("Default", -1, "Sandals");
+	Armor naked("Default", "Майка", -1, 0);//Create of hero
+    Boots sandals("Default", "Сандали", -1);
 
 	hero.Set_hp(settings.MAX_HP);
 	hero.ChangeArmor(naked);

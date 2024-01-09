@@ -1,0 +1,61 @@
+1
+continue
+#rd_status
+{
+	1
+	3
+	3
+	8
+}
+#Road
+{
+	#Start 2 8
+	#Ocean 2 9
+	#Normal 2 10
+	#Curse 3 10
+	#Normal 4 10
+	#Normal 4 9
+	#Normal 4 8
+	#Curse 3 8
+}
+#Level
+{
+	1
+}
+#Exp
+{
+	0
+}
+#Hp
+{
+	80
+}
+#Speed
+{
+	1
+}
+#Atack
+{
+	1
+}
+#Boots
+{
+	Default
+	-1
+	Сандали
+}
+#Chestplate
+{
+	Майка
+	0
+	-10
+	Default
+}
+#Weapon
+{
+	common
+	dagger
+	7
+	2
+	5
+}

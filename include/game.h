@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <list>
+#include <fcntl.h>
 
 #include "cell.h"
 #include "creature.h"
@@ -31,13 +32,16 @@ class Game
         vector<Road*> all_roads;
         vector<Armor> default_armor;
         vector<Monster> default_monsters;
+        vector<Weapon> default_weapons;
         list<Road> path;
         Input_Controller input;
         Output_Controller output;
         game_data settings;
+        int number_level;
+
     public:
-        Game(const string&);
-        int Play();
+        Game(const string&, int);
+        int Play(string, bool);
         int Make_Step();
         int Step_Check(int, int, int);
         void Create_Path();
@@ -52,10 +56,13 @@ class Game
         Armor create_armor_from_file(string);
         Boots create_boots_from_file(string);
         Monster create_monster_from_file(string);
+        Weapon create_weapon_from_file(string);
         void search_id(ifstream* , string );
         int ask_question();
+
         template<typename T>
         T Drop(vector<T>&);
+
         static int get_weight(const string&) ;
         void output_position();
         void output_hero_status();
@@ -65,7 +72,14 @@ class Game
         void output_lose();
         void output_droped_boots(Boots);
         void output_droped_arm(Armor);
+        void output_droped_wep(Weapon);
         void spawn_monsters();
+        void load_file(string);
+        void save(string , string);
+        int Battle(Monster);
+        void Battle_Start(Monster);
+        void Battle_End();
+        void Reward();
 };
 
 

@@ -5,6 +5,9 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <chrono>
+#include <thread>
+
 
 #include "cell.h"
 #include "view_terminal.h"
@@ -33,11 +36,16 @@ class Output_Controller
         Output_Controller();
         explicit Output_Controller(const game_data&);
         void Draw_Path_Terminal(list<Road>::const_iterator, list<Road>::const_iterator);
-        void Draw_Road_Terminal(Road);
+        void Undraw_Path_Terminal(list<Road>::const_iterator, list<Road>::const_iterator);
         void Draw_Hero_Terminal(list<Road>&, list<Road>::const_iterator, string);
         void Write_Str_Terminal(string);
         void set_settings(const game_data&);
         void Draw_Monster_Terminal(list<Road>::const_iterator, int );
+        void Draw_Entity_Terminal(list<Road>::const_iterator, int);
+        void clear_controller();
+        void Clear_Cell_Terminal(int, int);
+        void Colour_Entity_Terminal(int, int, string, string);
+        void Draw_Monsters_Terminal(list<Road>::const_iterator, list<Road>::const_iterator);
 };
 
 #endif

@@ -26,8 +26,8 @@ class Cell
         Cell(int, int, string);
         int GetX() const;
         int GetY() const;
-        void set_x(int);
-        void set_y(int);
+        void SetX(int);
+        void SetY(int);
         void set_name(const string&);
         string Get_Name() const;
 };
@@ -40,6 +40,7 @@ class Road : public Cell
         Event event;
         vector<Monster> monsters;
         Monster enemy;
+        vector<Weapon> weapons;
     public:
         Road(int , int , const string&);
         Road() : Cell() {}
@@ -52,6 +53,7 @@ class Road : public Cell
         void set_event(const Event&);
         void set_monster(Monster);
         void set_monsters(vector<Monster>);
+        void set_weapons(vector<Weapon>);
         Event get_event() const;
 };
 

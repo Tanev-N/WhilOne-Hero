@@ -17,6 +17,7 @@ class game_data
         int MAX_HP;
         vector<string> names_of_game_settings;
         game_data();
+        void Change_Max_Hp(int);
 };
 
 

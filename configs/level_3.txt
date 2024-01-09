@@ -5,7 +5,7 @@
 
 #MAX_HP
 {
-	40
+	200
 }
 #MIN_LEN_ROAD
 {
@@ -41,6 +41,14 @@
 	#Deadly_river
 	#Magic_forest
 	#Highlands
+}
+
+#WEAPONS
+{
+    #Glint_Of_Silver
+    #Soldier's_Courage
+    #Giant_Branch
+    #Elf's_Pride
 }
 
 

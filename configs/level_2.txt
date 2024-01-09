@@ -5,7 +5,7 @@
 
 #MAX_HP
 {
-	30
+	140
 }
 #MIN_LEN_ROAD
 {
@@ -42,6 +42,13 @@
 	#Swamp
 }
 
+#WEAPONS
+{
+    #Sharpened_Dagger
+    #Sturdy_Sword
+    #Oak_Club
+    #Quick_Bow
+}
 
 #MONSTERS
 {

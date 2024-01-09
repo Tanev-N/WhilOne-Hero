@@ -36,9 +36,10 @@ int Output_Terminal::Get_Colour_Code(const string& type) // Из типа дор
     return  color_cell.find(type)->second;
 }
 
-const char* Output_Terminal::Get_Monster_Icon(const string& enemy) // Из монстра в букву, выводимую на экран
+const char* Output_Terminal::Get_Entity_Icon(const string& enemy) // Из монстра в букву, выводимую на экран
 {
     map<string, const char*> map_of_enemies_icons = {{"bandit", "\U0001F92C"},
+                                                     {"hero", "\U0001F636"},
                                                      {"wolf", "\U0001F43A"},
                                                      {"spider", "\U0001F577"},
                                                      {"slime", "\U0001F922"},
@@ -71,26 +72,42 @@ const char* Output_Terminal::Get_Monster_Icon(const string& enemy) // Из мо�
                                                      {"T-Rex", "\U0001F996"},
                                                      {"shark", "\U0001F988"},
                                                      {"ninja", "\U0001F977"},
-                                                     {"snake", "\U0001F40D"}
+                                                     {"snake", "\U0001F40D"},
+                                                     {"hit", "\U0001F4A5"}
 
     };
-    return  map_of_enemies_icons.find(enemy)->second;
-
-
+    auto it_icon = map_of_enemies_icons.find(enemy);
+    if (it_icon == map_of_enemies_icons.end())
+    {
+        return "нет иконки моба";
+    }
+    else
+    {
+        return map_of_enemies_icons.find(enemy)->second;
+    }
 }
 
 
-void Output_Terminal::Draw_Monster(int x, int y, const string& name, const string& enemy)
+void Output_Terminal::Draw_Entity(int x, int y, const string& name, const string& ent)
 {
     int colour = Get_Colour_Code(name);
-    const char* symbol = Get_Monster_Icon(enemy);
+    const char* symbol = Get_Entity_Icon(ent);
     cout << "\033[" << x << ";" << y+settings.SIZE_BOARDER << "H";
     cout << "\033[37;" << colour << "m";
     cout << symbol;
 }
 
 
-
+void Output_Terminal::Clear_Road(int x, int y)
+{
+    int colour = 40;
+    cout << "\033["<< x << ";" << y+settings.SIZE_BOARDER << "H";
+    cout << "\033[37;" << colour << "m" << " ";
+    cout << " ";
+    cout << "\033["<< x << ";" << y+1+settings.SIZE_BOARDER << "H";
+    cout << "\033[37;" << colour << "m" << " ";
+    cout << " ";
+}
 
 
 void Output_Terminal::Draw_Road(int x, int y, string name)

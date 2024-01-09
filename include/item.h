@@ -11,11 +11,13 @@ class Item
 {
     protected:
         string type;
+        string name;
     public:
-        explicit Item(string);
+        Item(string, string);
         Item();
         string Get_Type();
         int get_weight();
+        string Get_Name();
 };
 
 class Equipment: public Item
@@ -23,7 +25,7 @@ class Equipment: public Item
     protected:
         int durability;
     public:
-        Equipment(string, int);
+        Equipment(string, string, int);
         Equipment();
         int Get_Durability() const;
         void reduce_durability();
@@ -35,7 +37,7 @@ class Armor : public Equipment
     private:
         int defense;
     public:
-        Armor(string , int, int); 
+        Armor(string, string, int, int);
         Armor();
         int Get_Defense() const;
 
@@ -43,13 +45,23 @@ class Armor : public Equipment
 
 class Boots : public Equipment
 {
-    private:
-        string name;
     public:
-        Boots(string , int ,  string);
+        Boots(string, string, int);
         Boots();
-        string Get_Name();
 
 };
+
+class Weapon : public Equipment
+{
+    private:
+        int attack;
+        int speed;
+    public:
+        Weapon(string, string, int, int, int);
+        Weapon();
+        int Get_Attack();
+        int Get_Speed();
+};
+
 
 #endif
