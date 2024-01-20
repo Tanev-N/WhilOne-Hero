@@ -32,14 +32,14 @@ int Armor::Get_Defense() const
 }
 
 Weapon::Weapon(string _type, string _name, int _durab = -1, int _atk = 0, int _spd = 0) : Equipment(_type, _name, _durab), attack(_atk), speed(_spd) {}
-Weapon::Weapon() : Equipment("Default", "Кулаки", -1), attack(1), speed(6) {}
+Weapon::Weapon() : Equipment("Default", "Кулаки", -1), attack(1), speed(1) {}
 
 int Weapon::Get_Attack()
 {
     return attack;
 }
 
-int Weapon::Get_Speed()
+int Weapon::attack_delay()
 {
     return speed;
 }

@@ -47,7 +47,7 @@ void Output_Controller::Draw_Path_Terminal(list<Road>::const_iterator it_begin, 
 
 void Output_Controller::Undraw_Path_Terminal(list<Road>::const_iterator it_begin, list<Road>::const_iterator it_end)
 {
-    chrono::milliseconds delete_cell(500);
+    chrono::milliseconds delete_cell(300);
     int direction = 0;
     list <Road>::const_iterator next_it;
     for (auto i = it_begin; i != it_end; ++i)

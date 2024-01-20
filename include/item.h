@@ -60,7 +60,7 @@ class Weapon : public Equipment
         Weapon(string, string, int, int, int);
         Weapon();
         int Get_Attack();
-        int Get_Speed();
+        int attack_delay();
 };
 
 

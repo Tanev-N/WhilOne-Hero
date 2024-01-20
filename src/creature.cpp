@@ -1,10 +1,10 @@
 #include "../include/creature.h"
 
 
-Creature::Creature(int _hp, int _exp, int _atk, int _spd, int _def): hp(_hp), exp(_exp), atk(_atk), spd(_spd), def(_def) {}
+Creature::Creature(int _hp, int _exp, int _atk, int _spd, int _def): hp(_hp), exp(_exp), atk(_atk), att_delay(_spd), def(_def) {}
 Creature::Creature() = default;
 
-Hero::Hero() : bts(), arm(), weap() {atk = 1; spd = 1; def = 1; level = 1;} //TODO replace MAX_HP
+Hero::Hero() : bts(), arm(), weap() {atk = 1; att_delay = 20; def = 0; level = 1;} //TODO replace MAX_HP
 
 void Creature::Set_hp(int _hp)
 {
@@ -58,7 +58,7 @@ void Hero::load_hero(ifstream *file) {
     (*file) >> word; // #Speed
     (*file) >> word;  // {
     (*file) >> word; // speed
-    spd = stoi(word);
+    att_delay = stoi(word);
     (*file) >> word; // }
 
     (*file) >> word; // #Attack
@@ -126,9 +126,9 @@ int Creature::Get_Attack()
     return atk;
 }
 
-int Creature::Get_Speed()
+int Creature::attack_delay()
 {
-    return spd;
+    return att_delay;
 }
 
 int Creature::Get_Defense()
@@ -178,7 +178,11 @@ void Hero::Level_Up(game_data& set)
     hp = set.MAX_HP;
     exp = 0;
     atk += 1;
-    spd += 1;
+    att_delay -= 1;
+    if (att_delay < 1)
+    {
+        att_delay = 1;
+    }
     level += 1;
 }
 
@@ -187,7 +191,7 @@ Monster::Monster() : name("Empty")
 {
     hp = 0;
     atk = 0;
-    spd = 0;
+    att_delay = 0;
     def = 0;
 }
 Monster::Monster(string _name, string _type, string _phrase, int _hp, int _exp, int _atk, int _spd, int _def) : Creature(_hp, _exp, _atk, _spd, _def), name(_name), type(_type), phrase(_phrase)  {}

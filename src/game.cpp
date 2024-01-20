@@ -165,7 +165,7 @@ void Game::Create_Path()
 				int row, column;
 				row = Get_Size_Row();
 				column = Get_Size_Column();
-				if ((row < 20) || (column < 40))
+				if ((row < 30) || (column < 50))
 				{
 					return(0);
 				}
@@ -182,9 +182,10 @@ road_status::road_status()
 int Game::Play(string name_player_file, bool new_player)
 {
 
-    //if (Screen_Size_Check() == 0) {
-     //   return 0;
-    //}
+    if (Screen_Size_Check() == 0) {
+        cout.clear();
+        exit(1);
+    }
 	string go = "Go";
 	string stop = "Stop";
 
@@ -206,6 +207,7 @@ int Game::Play(string name_player_file, bool new_player)
             if (i.Get_Name() == "Normal")
             {
                 i.set_monsters(default_monsters);
+                i.set_weapons(default_weapons);
             }
 
         }
@@ -228,6 +230,13 @@ int Game::Play(string name_player_file, bool new_player)
 	auto it = path.begin();
 
 	while(true) {
+
+        if (Screen_Size_Check() == 0) {
+            cout.clear();
+            exit(1);
+        }
+
+
 
 
         if ((*it).Get_Monster().Get_Name() != "Empty")
@@ -378,17 +387,19 @@ int Game::Play(string name_player_file, bool new_player)
 int Game::Battle(Monster enemy)
 {
     int enemy_hp = enemy.Get_Hp();
-    int enemy_spd = enemy.Get_Speed();
-    int hero_spd = hero.Get_Speed();
-    int battle_spd = 10;
+    int enemy_delay = enemy.attack_delay();
+    int battle_time =  1;
     int damage;
-    int enemy_idle_time = 0;
-    int hero_idle_time = 0;
     Battle_Start(enemy);
     chrono::milliseconds combat_delay(1500);
     while ((enemy_hp > 0) && (hero.Get_Hp() > 0))
     {
-        if ((battle_spd - enemy_spd - enemy_idle_time) <= 0) // Монстр наносит удар (Его скорость выросла до значения battle_speed)
+        if (Screen_Size_Check() == 0) {
+            cout.clear();
+            exit(1);
+        }
+
+        if ((battle_time % enemy_delay) == 0) // Монстр наносит удар (Его скорость выросла до значения battle_speed)
         {
             if (enemy.Get_Attack() >= (hero.Get_Defense() + hero.GetArmor().Get_Defense()))
             {
@@ -406,16 +417,15 @@ int Game::Battle(Monster enemy)
                 Armor arm;
                 hero.ChangeArmor(arm);
             }
-            output.Colour_Entity_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 6), "Nothing", "hit");
+            output.Colour_Entity_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 4), "Nothing", "hit");
             output.Write_Str_Terminal(enemy.Get_Name() + " наносит удар! Вы получаете " + to_string(damage) + " урона.");
-            enemy_idle_time = 0;
             this_thread::sleep_for(combat_delay);
+            output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 3));
         }
-        else
-        {
-            enemy_idle_time++;
-        }
-        if ((battle_spd - hero_spd - hero_idle_time) <= 0 )
+
+
+
+        if (( battle_time % (hero.attack_delay() + hero.GetWeapon().attack_delay())) == 0 )
         {
             if ((hero.Get_Attack() + hero.GetWeapon().Get_Attack()) > enemy.Get_Defense())
             {
@@ -436,16 +446,11 @@ int Game::Battle(Monster enemy)
             }
             output.Colour_Entity_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 1), "Nothing", "hit");
             output.Write_Str_Terminal("Вы наносите удар! " + enemy.Get_Name() + " получает " + to_string(damage) + " урона.");
-            hero_idle_time = 0;
             this_thread::sleep_for(combat_delay);
+            output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 1));
         }
-        else
-        {
-            hero_idle_time++;
-        }
+        battle_time++;
 
-        output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 1));
-        output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 6)); // Исчезает огонёк
     }
     if (hero.Get_Hp() <= 0)
     {
@@ -473,7 +478,7 @@ void Game::Battle_Start(Monster enemy)
 {
     output.Undraw_Path_Terminal(path.begin(), path.end());
     output.Colour_Entity_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 - 1), "Nothing", "hero");
-    output.Colour_Entity_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 10), "Nothing", enemy.Get_Name());
+    output.Colour_Entity_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 6), "Nothing", enemy.Get_Name());
     output.Write_Str_Terminal(enemy.Get_Phrase());
 }
 
@@ -522,6 +527,7 @@ void Game::Battle_End()
     output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 3));
     output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 4));
     output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 5));
+    output.Clear_Cell_Terminal(settings.SIZE_BOARDER/2, (settings.SIZE_BOARDER/2 + 6));
     output.Draw_Path_Terminal(it_begin, it_end);
     output.Draw_Monsters_Terminal(it_begin, it_end);
 }
@@ -530,7 +536,8 @@ void Game::Battle_End()
 
 void Game::output_droped_wep(Weapon _wep)
 {
-    string drop_wep = "Вам выпало оружие: " + _wep.Get_Name() + ", atk: " + to_string(_wep.Get_Attack()) + ", spd: " + to_string(_wep.Get_Speed()) + ", dur: " + to_string(_wep.Get_Durability());
+    string drop_wep = "Вам выпало оружие: " + _wep.Get_Name() + ", atk: " + to_string(_wep.Get_Attack()) + ", att_delay: " + to_string(
+            _wep.attack_delay()) + ", dur: " + to_string(_wep.Get_Durability());
     output.Write_Str_Terminal(drop_wep);
 }
 
@@ -836,7 +843,7 @@ void Game::save(string player_file, string action)
 
     file << "#Speed" << endl;
     file << "{" << endl;
-    file << "\t" << hero.Get_Speed() << endl;
+    file << "\t" << hero.attack_delay() << endl;
     file << "}" << endl;
 
     file << "#Atack" << endl;
@@ -865,7 +872,7 @@ void Game::save(string player_file, string action)
     file << "\t" <<  ( hero.GetWeapon().Get_Name()) << endl;
     file << "\t" <<  ( hero.GetWeapon().Get_Durability() ) << endl;
     file << "\t" <<  ( hero.GetWeapon().Get_Attack() )  << endl;
-    file << "\t" <<  ( hero.GetWeapon().Get_Speed() )  << endl;
+    file << "\t" << (hero.GetWeapon().attack_delay() ) << endl;
     file << "}" << endl;
 
     file.close();

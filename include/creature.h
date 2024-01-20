@@ -11,7 +11,7 @@ protected:
     int hp;
     int exp;
     int atk;
-    int spd;
+    int att_delay;
     int def;
 public:
     Creature();
@@ -21,7 +21,7 @@ public:
     int Get_Hp() const;
     int Get_Exp();
     int Get_Attack();
-    int Get_Speed();
+    int attack_delay();
     int Get_Defense();
     void Set_hp(int);
 };

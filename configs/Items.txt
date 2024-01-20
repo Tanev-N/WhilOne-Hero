@@ -1,6 +1,6 @@
 chestplate = rarity + name + durability + defense
 boots = rarity + name + durability
-weapons = rarity + name + durability + attack + speed
+weapons = rarity + name + durability + attack + attack_delay
 
 
 
@@ -18,7 +18,7 @@ weapons = rarity + name + durability + attack + speed
 {
     common
     dagger
-    7
+    17
     2
     5
 }
@@ -27,17 +27,17 @@ weapons = rarity + name + durability + attack + speed
 {
     common
     sharpened_dagger
-    7
+    17
     4
-    5
+    4
 }
 
 #Glint_Of_Silver
 {
     common
     glint_of_silver
-    7
-    6
+    13
+    3
     5
 }
 
@@ -45,62 +45,62 @@ weapons = rarity + name + durability + attack + speed
 {
     common
     sword
-    7
+    13
     5
-    2
+    10
 }
 
 #Sturdy_Sword
 {
     common
     sturdy_sword
-    8
+    10
     6
-    3
+    10
 }
 
 #Soldier's_Courage
 {
     common
     soldier's_courage
-    8
-    8
+    10
     4
+    5
 }
 
 #Club
 {
     common
     club
-    10
+    15
     4
-    2
+    15
 }
 
 #Oak_Club
 {
     common
     oak_club
-    10
-    5
-    2
+    15
+    6
+    15
 }
 
 #Giant_Branch
 {
     common
     giant_branch
+    15
     10
-    8
-    2
+    15
 }
 
 #Bow
 {
     rare
     bow
-    6
-    5
+    10
+    1
     4
 }
 
@@ -108,18 +108,18 @@ weapons = rarity + name + durability + attack + speed
 {
     rare
     quick_bow
-    6
+    10
+    2
     5
-    6
 }
 
 #Elf's_Pride
 {
     rare
     elf's_pride
-    6
+    10
+    3
     5
-    9
 }
 
 
@@ -128,8 +128,8 @@ weapons = rarity + name + durability + attack + speed
 	common
 	magma_rock
 	10
-	2
-	5
+	10
+	40
 }
 
 
@@ -137,16 +137,16 @@ weapons = rarity + name + durability + attack + speed
 {
 	epic
 	fire_staff
+	15
 	5
-	10
-	3
+	20
 }
 
 #Tentacle
 {
 	epic
 	tentacle
-	7
+	10
 	6
 	2
 }
@@ -166,7 +166,7 @@ weapons = rarity + name + durability + attack + speed
 	water_bottle
 	1
 	5
-	9
+	4
 }
 
 #Earth_Staff
@@ -174,8 +174,8 @@ weapons = rarity + name + durability + attack + speed
 	legendary
 	earth_staff
 	10
-	5
-	4
+	15
+	10
 }
 
 #Thorn_Whip
@@ -183,9 +183,13 @@ weapons = rarity + name + durability + attack + speed
 	epic
 	thorn_whip
 	4
-	8
-	7
+	20
+	9
 }
+
+   TODO: Replase attack_delay
+
+   
 
 #Skull_Staff
 {
@@ -372,7 +376,7 @@ weapons = rarity + name + durability + attack + speed
 	unique
 	rage
 	20
-	3
+	2
 	6
 }
 
