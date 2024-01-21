@@ -12,7 +12,7 @@ completed, and the player is the winner.
 
 ## Game process
 
-<img src='https://github.com/Tanev-N/WhilOne-Hero/blob/main/docs/game.gif'/>
+<img src='https://github.com/Tanev-N/WhilOne-Hero/blob/main/docs/game.gif?raw=true'/>
 
   At startup, the program starts generating roads according to a predetermined
 algorithm and, when it reaches the desired result, displays it on the screen, starting
@@ -51,7 +51,7 @@ cd build
 cmake ..
 make
 ```
-<img src='https://github.com/Tanev-N/WhilOne-Hero/blob/main/docs/build.gif'/>
+<img src='https://github.com/Tanev-N/WhilOne-Hero/blob/main/docs/build.gif?raw=true'/>
 
 ##  Requirements
 
