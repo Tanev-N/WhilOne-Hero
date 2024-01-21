@@ -245,7 +245,6 @@ int Game::Play(string name_player_file, bool new_player)
             battle_result = Battle((*it).Get_Monster());
             if (battle_result == 0)
             {
-                output_lose();
                 return 0;
             }
             else
@@ -280,7 +279,6 @@ int Game::Play(string name_player_file, bool new_player)
         //Check win
         if (rd_status.cout_spc_road == rd_status.road_len - 1) {
             save(name_player_file, "win");
-            output_win();
             output.clear_controller();
             return 1;
         }
@@ -301,7 +299,6 @@ int Game::Play(string name_player_file, bool new_player)
 
         //Check lose
         if (hero.Get_Hp() <= 0) {
-            output_lose();
             output.clear_controller();
             return 0;
         }
@@ -454,7 +451,6 @@ int Game::Battle(Monster enemy)
     }
     if (hero.Get_Hp() <= 0)
     {
-        output_lose();
         return 0;
     }
     else

@@ -58,7 +58,9 @@ int main() {
             Game whileOne_level(*p, i);
             if (whileOne_level.Play("../saves/" + player_name + ".txt", flag_new_player) == 0)
             {
-                break;
+
+                whileOne_level.output_lose();
+                return 1;
             }
             flag_new_player = true;
             cout << "\033[2J\033[1;1H";
