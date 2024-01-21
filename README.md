@@ -60,6 +60,7 @@ level was the last.
 
 ```
 git clone https://github.com/Tanev-N/WhilOne-Hero
+mkdir build
 cd build
 cmake ..
 make
