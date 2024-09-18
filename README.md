@@ -6,7 +6,7 @@
 he must collect the armor and weapons he found on the way, which will help him in battles against monsters and when passing
 through difficult terrain. When all the cells of the road are changed to special ones on the first
 level, the second one begins. After the second, the third. After the third, the game is considered
-completed, and the player is the winner.
+completed, and the player is the winner. !
 
 
 
