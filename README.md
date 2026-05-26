@@ -28,15 +28,15 @@ Ordinary cells have a chance to turn into one of the unusual cells,
 which are listed in the corresponding file of the current level. Special
 cells have a chance of shoes falling out, which affects the outcome of the event
 taking place on them. If the player has them, he restores
-his health. If not, he loses it. In addition, different weapons drop out on each type of cell
+his health. If not, he loses it. In addition, different weapons drop on each type of cell
 and different monsters appear.
 
 ### *Items*
 
 If the player has found an item, then he can put it on (if he does not have such a piece
-of equipment, if there is, then he can either replace it or not take it at all, prescribing
-Y/N, respectively.) Items have durability, which, when reaching zero
-during a fight or an event on the cage, it will mean a breakdown of equipment.
+of equipment, if there is, then he can either replace it or not take it at all, with
+Y/N, respectively.) Items have durability and will, when reaching zero
+during a fight or an event on the cage, break.
 
 ### *Battle*
 
